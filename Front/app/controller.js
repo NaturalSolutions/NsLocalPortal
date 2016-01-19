@@ -1,7 +1,8 @@
 define(['marionette', 'config',
 	'./base/home/lyt-home',
+  './base/inscription/lyt-insc'
 ], function(Marionette, config,
-	LytHome
+	LytHome,LytInscription
 
 ) {
   'use strict';
@@ -17,6 +18,12 @@ define(['marionette', 'config',
       Backbone.history.navigate('');
       this.rgMain.show(new LytHome({app: this.options.app}));
     },
+
+
+    inscription : function() {
+      Backbone.history.navigate('');
+      this.rgMain.show(new LytHome({app: this.options.app}));
+    }
 
   });
 });

@@ -1,25 +1,26 @@
 <div class="container">
 
-	<div id="infos" class="infos clearfix mid-height hidden-xs hidden-sm hidden-md">
-		<div class="col-lg-6">
-			<time></time>
-
-		</div>
-		<div class=" col-lg-6">
-			<h1><span data-i18n="home.hello">Hello,</span><br><span id="user"></span></h1>
-		</div>
-	</div>
-
-	<div class="clearfix mid-height">
-		<button id="prevPage" class="hidden tile-nav prev ripplelink">
-			<i class="reneco reneco-leftarrow"></i>
-		</button>
-
-		<div id="tileContainer" class="tiles clearfix ns-mid-height animated"></div>
-
-		<button id="nextPage" class="hidden tile-nav next ripplelink">
-			<i class="reneco reneco-rightarrow"></i>
-		</button>
+	<div class="clearfix">
+		<form id="formInscription">
+					<p>
+						<label>Nom</label> <input type="text" name="name" placeholder="votre nom" required=""> 
+					</p>
+					<p>
+						<label>Prénom</label><input type="text" name="firstName" placeholder="votre prénom" required=""> 
+					</p>
+					<p>
+						<label>Adresse email</label><input type="email" name="email" placeholder="votre adresse mail" required=""> 
+					</p>
+					<p>
+						<label>Mot de passe</label><input type="password" name="password" placeholder="votre mot de passe" required=""> 
+					</p>
+					<p>
+						<label>Confirmer le mot de passe</label><input type="password" name="password2" placeholder="confirmer" required=""> 
+					</p>
+					<p>
+						<input type="button" value="Envoyer" id="btnInscription">
+					</p>
+				</form>
 	</div>
 
 </div>
