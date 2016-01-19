@@ -1,0 +1,21 @@
+{
+	"home" : {
+		"hello" : "Bonjour",
+		"login" : "Identifiez-vous"
+
+	},
+
+	"header" : {
+		"portal" : "Portail",
+		"logout" :"déconnexion"
+	},
+
+	"button" : {
+		"search" : "Rechercher",
+		"clear" : "Nettoyer",
+		"reset" : "Annuler",
+		"edit" :"Editer",
+		"add" : "Ajouter"
+	}
+	
+}

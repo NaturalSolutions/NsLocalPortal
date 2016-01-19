@@ -1,0 +1,20 @@
+{
+	"home" : {
+		"hello" : "Hello",
+		"login" : "Login"
+
+		},
+
+	"header" : {
+		"portal" : "Portal",
+		"logout" :"logout"
+	},
+
+	"button" : {
+		"search" : "Search",
+		"clear" : "Clear",
+		"reset" : "Reset",
+		"edit" :"Edit",
+		"add" : "Add"
+	}
+}

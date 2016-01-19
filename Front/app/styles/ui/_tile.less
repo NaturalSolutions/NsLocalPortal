@@ -1,0 +1,255 @@
+
+/* approx.. */
+@small-tile: 150px;
+@margin-hoz: 25px;
+@margin-ver: 5px;
+@big_tile: @small-tile*2 + @margin-hoz;
+
+.tile-nav{
+	position: absolute;
+	top: @margin-ver;
+	bottom: 0px;
+	border: none;
+	height: @small-tile*2 + @margin-ver*2;
+	color: white;
+	border-radius: 3px;
+	background: rgba(0,0,0,.8);
+	transition: 0.5s all ease;
+	width: 50px;
+	&:hover{
+		background: rgba(0,0,0,.5);
+	}
+	&.prev {
+		left: 0;
+	}
+	&.next{
+		right: 0;
+	}
+}
+
+.tiles-wrapper{
+	width: 1000px;
+	margin: auto;
+	position: relative;
+}
+@media screen and (max-width: @screen-lg){
+	.tiles-wrapper{
+		width: 100%;
+	}
+	.page{
+		display: block!important;
+	}
+	.tile-nav{
+		display: none!important;
+	}
+}
+
+.tile{
+	opacity: 1;
+	color: white;
+	text-align: center;
+	height: @small-tile;
+	float: left;
+	margin: @margin-ver @margin-hoz 20px;
+	color: white;
+	opacity: 1;
+	position: relative;
+	border-radius: 3px;
+	overflow: hidden;
+	transition: opacity ease .5s;
+	background: @ecoreleve;
+	& a{
+		display: block;
+		height: 100%;
+		width: 100%;
+		padding: 20px;
+		color: white;
+		&:hover, &:focus{
+			color: white;
+		}
+		word-wrap: break-word;
+	}
+	&.small-tile{
+		width: @small-tile;
+	}
+	&.big_tile{
+		width: @big_tile;
+	}
+
+
+	span{
+		font-size: 15px;
+		font-weight: normal;
+		.reneco{
+			font-size: 4em;
+			padding-bottom: 8px;
+			display: block;
+			line-height: 0.9;
+		}
+	}
+	&:hover, &:focus, &:visited{
+		color: white;
+		opacity: 0.8;
+	}
+}
+
+@media screen and (max-width: @screen-sm){
+	.tile{
+		&.small-tile, &.big-tile, &.last, &.first{
+			margin-left: 0px!important;
+			width: 100%;
+		}
+	}
+}
+
+
+
+
+
+
+.track-dev,.track-faucon,.track-ganga,.track-macq,.track-oedic,.track-other,.track-undu{
+	background: @track;
+}
+.ecoll-bota, .ecoll-entomo, .ecoll-veto{
+	background: @ecoll;
+}
+.thesaurus{
+	background: @thesaurus;
+}
+.securite{
+	background: @secu;
+}
+.formbuilder{
+	background: @formbuilder;
+}
+.position{
+	background: @position;
+}
+.documentation{
+	background: @documentation;
+}
+
+.tile-locked
+{
+	cursor: not-allowed;
+	background-color: rgba(0,0,0,0.5)!important;
+	&:hover{
+		opacity: 1;
+	}
+}
+
+
+
+.tile-blue
+{
+	background-color: @blue;
+}
+.tile-green
+{
+	background-color: @green;
+}
+.tile-red
+{
+	background-color: @red;
+}
+.tile-yellow
+{
+	background-color: @yellow;
+}
+.tile-orange
+{
+	background-color: @orange;
+}
+.tile-pink
+{
+	background-color: @pink;
+}
+.tile-purple
+{
+	background-color: @purple;
+}
+.tile-lime
+{
+	background-color: @lime;
+}
+.tile-magenta
+{
+	background-color: @magenta;
+}
+.tile-teal
+{
+	background-color: @teal;
+}
+.tile-turquoise 	
+{
+	background-color: @turquoise;
+}
+.tile-green-sea 	
+{
+	background-color: @green-sea;
+}
+.tile-emerald
+{
+	background-color: @emerald;
+}
+.tile-nephritis
+{
+	background-color: @nephritis;
+}
+.tile-peter-river
+{
+	background-color: @peter-river;
+}
+.tile-belize-hole
+{
+	background-color: @belize-hole;
+}
+.tile-amethyst
+{
+	background-color: @amethyst;
+}
+.tile-wisteria
+{
+	background-color: @wisteria;
+}
+.tile-wet-asphalt
+{
+	background-color: @wet-asphalt;
+}
+.tile-midnight-blue
+{
+	background-color: @midnight-blue;
+}
+.tile-sun-flower
+{
+	background-color: @sun-flower;
+}
+.tile-carrot
+{
+	background-color: @carrot;
+}
+.tile-pumpkin
+{
+	background-color: @pumpkin;
+}
+.tile-alizarin
+{
+	background-color: @alizarin;
+}
+.tile-pomegranate
+{
+	background-color: @pomegranate;
+}
+.tile-silver
+{
+	background-color: @silver;
+}
+.tile-concrete
+{
+	background-color: @concrete;
+}
+.tile-asbestos
+{
+	background-color: @asbestos;
+}
+
