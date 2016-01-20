@@ -34,7 +34,8 @@ return Marionette.AppRouter.extend({
         $('body').removeClass('app');
         window.app.rootView.rgHeader.empty();
         window.app.rootView.rgMain.show(new LytLogin());
-        if (!args[0]) {
+        var currentRoute = Backbone.history.getFragment();
+        if (currentRoute == 'inscription') {
 
           window.app.rootView.rgMain.show(new LytInscription());
           Backbone.history.navigate('inscription', {trigger: true});

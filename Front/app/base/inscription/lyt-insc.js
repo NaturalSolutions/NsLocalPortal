@@ -22,14 +22,14 @@ events : {
     var mail = $("input[name$='mail']").val();
     var password = $("input[name$='password']").val();
     var password2 = $("input[name$='password2']").val();
-    var charte = $("input[name$='charte']").is(':checked');
+    //var charte = $("input[name$='charte']").is(':checked');
     if ( name == "" || firstName =="" || mail == ""  || password == "" ) {alert("Merci de renseigner tous les champs");}
     else if (password!=password2){ alert("Merci de re-saisir votre mot de passe");} 
     else if( !this.validateEmail(mail)) { alert("Merci de saisir une adresse mail valide");}
-    else if (!charte){alert("Merci cocher la case relative &eacute; la charte");}
+    //else if (!charte){alert("Merci cocher la case relative &eacute; la charte");}
     else {
       var formVal = $("#formInscription").serialize();  
-      var url ="http://ns24422.ovh.net/ecoReleve-coreMycoflore/user/mail_send?"+ formVal;
+      var url ="http://localhost/portal/user/mail_send?"+ formVal;
       $.ajax({
         url: url,
         dataType: "json",
@@ -51,7 +51,7 @@ events : {
     } else {
       return true;
     }
-  }
+  },
 
   });
 });
