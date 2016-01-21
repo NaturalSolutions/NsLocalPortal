@@ -31,6 +31,10 @@ def add_routes(config):
     config.add_route('core/site', 'portal-core/site')
     config.add_route('core/instance', 'portal-core/instance')
 
+    ### Account ##### 
+    config.add_route('core/account', 'portal-core/account')
+
+
 
 
 

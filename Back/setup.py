@@ -21,9 +21,9 @@ requires = [
     'webtest'
     ]
 
-setup(name='ns_portal',
+setup(name='ns_local_portal',
       version='0.0',
-      description='ns_portal',
+      description='ns_local_portal',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
         "Programming Language :: Python",
@@ -38,12 +38,12 @@ setup(name='ns_portal',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      test_suite='ns_portal',
+      test_suite='ns_local_portal',
       install_requires=requires,
       entry_points="""\
       [paste.app_factory]
-      main = ns_portal:main
+      main = ns_local_portal:main
       [console_scripts]
-      initialize_ns_portal_db = ns_portal.scripts.initializedb:main
+      initialize_ns_local_portal_db = ns_local_portal.scripts.initializedb:main
       """,
       )

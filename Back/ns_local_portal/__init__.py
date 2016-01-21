@@ -11,15 +11,15 @@ from pyramid.renderers import JSON
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 
-from ns_portal.controllers.security import SecurityRoot, role_loader
-from ns_portal.Models import (
+from .controllers.security import SecurityRoot, role_loader
+from .Models import (
     DBSession,
     Base,
     dbConfig,
     )
-from ns_portal.Views import add_routes
+from .Views import add_routes
 
-from ns_portal.pyramid_jwtauth import (
+from .pyramid_jwtauth import (
     JWTAuthenticationPolicy,
     includeme
     )

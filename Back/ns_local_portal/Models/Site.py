@@ -11,7 +11,7 @@ from sqlalchemy import (
  )
 
 from sqlalchemy.ext.hybrid import hybrid_property
-from ns_portal.Models import Base, dbConfig
+from ..Models import Base, dbConfig
 
 db_dialect = dbConfig['dialect']
 
