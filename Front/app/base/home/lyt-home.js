@@ -64,7 +64,7 @@ function(_, Marionette, $, config, Moment, LytTile) {
       this.ui.user.html(this.model.get('fullname'));
       this.startTime();
       this.displayTiles();
-      this.$el.i18n();
+      //this.$el.i18n();
 
     },
 

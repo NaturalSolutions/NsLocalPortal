@@ -33,6 +33,8 @@ def add_routes(config):
 
     ### Account ##### 
     config.add_route('core/account', 'portal-core/account')
+    config.add_route('core/account/activation', 'portal-core/account/{id}/activation')
+    # config.add_route('core/user', 'portal-core/user/')
 
 
 

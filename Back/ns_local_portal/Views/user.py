@@ -1,7 +1,7 @@
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
-from sqlalchemy import select
-from ..Models import DBSession, User
+from sqlalchemy import select,func
+from ..Models import DBSession, User,dbConfig, Authorisation, UserDepartement
 from email.mime.text import MIMEText
 from email import message
 from email.mime.text import MIMEText
@@ -9,7 +9,7 @@ from email.mime.multipart import MIMEMultipart
 import smtplib
 from email.header import Header
 from email.utils import formataddr
-
+import transaction
 
 @view_config(
     route_name='core/user',
@@ -45,51 +45,64 @@ def current_user(request):
 
 @view_config(route_name='core/account',renderer='json', request_method='GET', permission= NO_PERMISSION_REQUIRED)
 def createAccount(request):
-    # data = request.params
+    data = request.params.mixed()
+    print(data)
+    newUser = User(
+        Lastname = data['name'],
+        Firstname = data['firstName'],
+        CreationDate = func.now(),
+        Login = data['mail'],
+        Password = data['password'],
+        Language = 'fr',
+        ModificationDate = func.now(),
+        HasAccess = 0,
+        Photos = None,
+        IsObserver = 0,
+        )
+    DBSession.add(newUser)
+    DBSession.flush()
 
-    # newUser = User(
-    #     Lastname = 
-    #     Firstname = 
-    #     CreationDate = 
-    #     Login = 
-    #     Password = 
-    #     Language = 
-    #     ModificationDate = 
-    #     HasAccess = 
-    #     Photos = 
-    #     IsObserver = 
-    #     )
+    to_add = []
+    instance_IDs = [45,46,47]
 
-    # DBSession.add(newUser)
+    for id_inst in instance_IDs:
+        curAuthorisation = Authorisation(FK_User = newUser.id,Instance = id_inst, Role = 3) 
+        to_add.append(curAuthorisation)
 
-    # DBSession.flush()
+    to_add.append(UserDepartement(FK_User = newUser.id,Fk_Departement = 47))
 
-    sendMail('romain_fabbro@natural-solutions.eu',1)
-
-
+    DBSession.add_all(to_add)
+    sendMail(newUser.Login,newUser.id)
+    return 'success'
 
 def sendMail (email_adress,id_) :
         smtpServer = smtplib.SMTP('smtp.gmail.com',587)
         smtpServer.ehlo()
         smtpServer.starttls()
-        print('try to login')
-        smtpServer.login('romain_fabbro@natural-solutions.eu','coco&&1802')
+        smtpServer.login(dbConfig['mail'],dbConfig['pwd'])
         recipients = email_adress
-        
+
         body = ''' Welcome on ecoReleve !\n
         Please visit this link to activate your account: \n
-        http://92.222.217.165/ecoReleve/#account/{0}/activation
-        
-        \n\n
+        http://92.222.217.165/nslocalportal/#activation/{0}
+
 
         Regards,
 
-        ecoReleve team
-        '''.format(id_)
+
+        ecoReleve Team'''.format(id_)
         text =MIMEText(body)
 
         outer = MIMEMultipart()
         outer['Subject'] =  'Activation ecoReleve'
         outer.attach(text)
         msg = outer.as_string()
-        smtpServer.sendmail('romain_fabbro@natural-solutions.eu',recipients,msg)
+        smtpServer.sendmail(dbConfig['mail'],recipients,msg)
+
+@view_config(route_name='core/account/activation',renderer='json', request_method='GET', permission= NO_PERMISSION_REQUIRED)
+def activateAccount(request):
+    user_id = request.matchdict['id']
+    curUser = DBSession.query(User).get(user_id)
+    curUser.HasAccess = 1
+    transaction.commit()
+    return 'success'

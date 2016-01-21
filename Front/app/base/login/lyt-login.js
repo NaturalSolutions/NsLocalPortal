@@ -102,7 +102,7 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
           });
         },
       });
-       this.$el.i18n();
+       //this.$el.i18n();
     },
 
     checkUsername: function() {

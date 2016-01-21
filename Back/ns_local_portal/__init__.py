@@ -45,6 +45,8 @@ def main(global_config, **settings):
     engine = engine_from_config(settings, 'sqlalchemy.')
     dbConfig['url'] = settings['sqlalchemy.url']
     dbConfig['siteName'] = settings['siteName']
+    dbConfig['mail'] = settings['smtpMail']
+    dbConfig['pwd']= settings['smtpPwd']
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
     Base.metadata.create_all(engine)

@@ -13,3 +13,5 @@ dbConfig = {
 
 from .User import User
 from .Site import Site
+from .Authorisation import Authorisation
+from .UseDepartement import UserDepartement

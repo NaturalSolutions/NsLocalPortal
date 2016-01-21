@@ -5,13 +5,14 @@
 
 **/
 define(['jquery', 'marionette', 'backbone', 'config', './base/login/lyt-login', 
-  './base/header/lyt-header','./base/inscription/lyt-insc'],
-  function($, Marionette, Backbone, config, LytLogin, LytHeader, LytInscription) {
+  './base/header/lyt-header','./base/inscription/lyt-insc','./base/activation/lyt-activate'],
+  function($, Marionette, Backbone, config, LytLogin, LytHeader, LytInscription,LytActivation) {
 
 'use strict';
 return Marionette.AppRouter.extend({
   appRoutes: {
     'inscription' : 'inscription',
+    'activation/:id': 'activation',
     '*route(/:page)': 'home',
   },
 
@@ -35,14 +36,19 @@ return Marionette.AppRouter.extend({
         window.app.rootView.rgHeader.empty();
         window.app.rootView.rgMain.show(new LytLogin());
         var currentRoute = Backbone.history.getFragment();
-        if (currentRoute == 'inscription') {
+        var ss = currentRoute.search('activation');
 
+        if (currentRoute == 'inscription') {
           window.app.rootView.rgMain.show(new LytInscription());
           Backbone.history.navigate('inscription', {trigger: true});
-        } else {
-          Backbone.history.navigate('login', {trigger: true});
+
+        } else if (ss >= 0 ){
+          callback.apply(this, args);
         }
 
+        else {
+          Backbone.history.navigate('login', {trigger: true});
+        }
       });
   },
 

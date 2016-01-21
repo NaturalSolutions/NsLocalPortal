@@ -35,7 +35,7 @@ function(Marionette, config) {
 
     onShow: function() {
       this.ui.user.html(this.model.get('fullname'));
-      this.$el.i18n();
+      //this.$el.i18n();
     },
   });
 });

@@ -28,14 +28,22 @@ events : {
     else if( !this.validateEmail(mail)) { alert("Merci de saisir une adresse mail valide");}
     //else if (!charte){alert("Merci cocher la case relative &eacute; la charte");}
     else {
-      var formVal = $("#formInscription").serialize();  
-      var url ="http://localhost/portal/user/mail_send?"+ formVal;
+      //var formVal = $("#formInscription").serialize();
+      var formVal = {
+        'password' : this.pwd(password),
+        'firstName' : firstName,
+        'mail' : mail,
+        'name' : name
+      }; 
+
+      console.log(formVal.password)
+      var url =config.coreUrl+"account";
       $.ajax({
         url: url,
+        data : formVal,
         dataType: "json",
         success: function(data) {
-          var result = data[0].result;
-          if (result =="success"){
+          if (data =="success"){
             $("#inscription").addClass("masqued");
             $("#inscriptionInfos").removeClass("masqued");
           }
@@ -52,6 +60,17 @@ events : {
       return true;
     }
   },
+
+  pwd: function(pwd) {
+
+      pwd = window.btoa(unescape(decodeURIComponent( pwd )));
+      var hashObj = new JsSHA('SHA-1', 'B64', 1);
+
+      hashObj.update(pwd);
+      pwd = hashObj.getHash('HEX');
+      return pwd;
+    },
+
 
   });
 });
