@@ -27,6 +27,7 @@ events : {
     setTimeout(function(){
               _this.activation();
             }, 2000);
+    this.$el.i18n();
   },
 
   activation:function () {

@@ -16,5 +16,25 @@
 		"reset" : "Reset",
 		"edit" :"Edit",
 		"add" : "Add"
+	},
+	"login" : {
+		"loginInsMsg" : "You are not registered yet ?",
+		"footer" : "By"
+	},
+	"inscription" : {
+		"name" :"Last name",
+		"firstname"	: "First name",
+		"email" : "Email adress",
+		"password" : "Password",
+		"passwordConfirm" : "Confirm your password",
+		"organisation" : "Company or organization",
+		"submit" : "Submit",
+		"backBtn" : "Back to the authentication page",
+		"inscriptionmsg" : "Your registration has been taken into account. An email will be sent to you to confirm your registration."
+	},
+	"activation" : {
+		"current" :"Current activation",
+		"successMsg" : "Your account has been activated.",
+		"back" : "Back to the authentication page"
 	}
 }

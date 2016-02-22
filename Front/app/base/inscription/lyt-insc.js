@@ -16,6 +16,9 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
 events : {
     "click #btnInscription": "inscription"
   },
+  onShow: function() {
+       this.$el.i18n();
+  },
   inscription : function(){
     var name = $("input[name$='name']").val();
     var firstName = $("input[name$='firstName']").val();

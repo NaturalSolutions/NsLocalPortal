@@ -1,32 +1,47 @@
+<div class="container-fluid header-ecoreleve">
+	<a class="navbar-brand after">
+		<span class="reneco reneco-ecorelevesmall"></span>&nbsp;
+		ecoReleve
+	</a>
+</div>
 <div class="container inscription">
 
 	<div class="clearfix ">
-			<div id="inscription">
+			<div id="inscription" class="col-xs-5">
+				</br>
+				</br>
+				<h2>Inscription</h2></br>
 				<form id="formInscription">
 						<p>
-							<label>Nom</label> <input type="text" name="name" placeholder="votre nom" required=""> 
+							<label><span data-i18n="inscription.name">Name</span></label> <input class="form-control" type="text" name="name" placeholder="votre nom" required=""> 
 						</p>
 						<p>
-							<label>Prénom</label><input type="text" name="firstName" placeholder="votre prénom" required=""> 
+							<label><span data-i18n="inscription.firstname">First name</span></label><input class="form-control" type="text" name="firstName" placeholder="votre prénom" required=""> 
 						</p>
 						<p>
-							<label>Adresse email</label><input type="email" name="email" placeholder="votre adresse mail" required=""> 
+							<label><span data-i18n="inscription.email">email adress</span></label><input class="form-control" type="email" name="email" placeholder="votre adresse mail" required=""> 
 						</p>
 						<p>
-							<label>Mot de passe</label><input type="password" name="password" placeholder="votre mot de passe" required=""> 
+							<label><span data-i18n="inscription.password">password</span></label><input class="form-control" type="password" name="password" placeholder="votre mot de passe" required=""> 
 						</p>
 						<p>
-							<label>Confirmer le mot de passe</label><input type="password" name="password2" placeholder="confirmer" required=""> 
+							<label><span data-i18n="inscription.passwordConfirm">Confirm your password</span></label><input class="form-control" type="password" name="password2" placeholder="confirmer" required=""> 
 						</p>
 						<p>
-							<input type="button" value="Envoyer" id="btnInscription">
+							<label><span data-i18n="inscription.organisation">organisation</span></label><input class="form-control" type="text" name="organisation" placeholder="" required=""> 
+						</p>
+						<p>
+							<button type="button" class="btn btn-success" id="btnInscription"><span data-i18n="inscription.submit">Envoyer</span></button>
 						</p>
 					</form>
 				</div>
 				<div id="inscriptionInfos" class="masqued">
-					<p>Votre inscription a bien été prise en compte. Un mail vous sera adressé pour valider votre inscription.</p>
 					<br/>
-					<p><a href='#'>Retour vers la page d'authentification</a></p>
+					<p><span data-i18n="inscription.inscriptionmsg"></span></p>
+					<br/>
+					<p><a href='#'>
+						<button type="button" class="btn btn-success"><span data-i18n="inscription.backBtn">Retour vers la page d'authentification</span></button>	
+					</a></p>
 				</div>
 
 	</div>

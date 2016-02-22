@@ -81,6 +81,7 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
     },
 
     onShow: function() {
+      var locale = config.language;
       this.style();
       var ctx = this;
       this.collection.url = config.coreUrl + 'user';
@@ -90,7 +91,7 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
           data.each(function(m) {
             ctx.users.push(m.get('fullname'));
           });
-
+/*
           $('#UNportal').autocomplete({
             source: function(request, response) {
               var exp = '^' + $.ui.autocomplete.escapeRegex(request.term);
@@ -99,20 +100,31 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
                 return matcher.test(item);
               }));
             },
-          });
+          });*/
         },
       });
-       //this.$el.i18n();
+      this.$el.i18n();
+      if(locale == 'fr'){
+          $("#UNportal").attr("placeholder", "identifiant");
+          $("#password").attr("placeholder", "mot de passe");
+      }
+       
     },
 
     checkUsername: function() {
+      var locale = config.language;
       var user = this.collection.findWhere({fullname: $('#UNportal').val()});
       if (!user) {
-        this.fail('#login-group', 'Invalid username');
+        var invalidUser = 'Invalid username';
+        if(locale == 'fr'){
+              invalidUser = 'Identifiant invalide' ;
+          }
+        this.fail('#login-group', invalidUser);
       }
     },
 
     login: function(elt) {
+      var locale = config.language;
       var _this = this;
       elt.preventDefault();
       elt.stopPropagation();
@@ -138,12 +150,20 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
           }, 500);
 
         }).fail(function() {
-          this.fail('#pwd-group', 'Invalid password');
+          var invalidPass = 'Invalid password';
+          if(locale == 'fr'){
+              invalidPass = 'Mot de passe invalide' ;
+          }
+          this.fail('#pwd-group', invalidPass);
           this.shake();
 		  $('#password').val('');
         });
       } else {
-        this.fail('#login-group', 'Invalid username');
+        var invalidUser = 'Invalid username';
+        if(locale == 'fr'){
+              invalidUser = 'Identifiant invalide' ;
+          }
+        this.fail('#login-group', invalidUser);
         this.shake();
       }
     },

@@ -61,10 +61,10 @@ function(_, Marionette, $, config, Moment, LytTile) {
 
     onShow: function(options) {
       this.style();
-      this.ui.user.html(this.model.get('fullname'));
+      this.ui.user.html(this.model.get('firstname') + " " + this.model.get('lastname'));
       this.startTime();
       this.displayTiles();
-      //this.$el.i18n();
+      this.$el.i18n();
 
     },
 

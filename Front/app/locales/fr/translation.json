@@ -16,6 +16,25 @@
 		"reset" : "Annuler",
 		"edit" :"Editer",
 		"add" : "Ajouter"
+	},
+	"login" : {
+		"loginInsMsg" : "Vous n'êtes pas encore inscrit(e)?",
+		"footer" : "Par"
+	},
+		"inscription" : {
+		"name" :"Nom",
+		"firstname"	: "Prénom",
+		"email" : "Adresse email",
+		"password" : "Mot de passe",
+		"passwordConfirm" : "Confirmer le mot de passe",
+		"organisation" : "Entreprise ou organisation",
+		"submit" : "Envoyer",
+		"backBtn" : "Retour vers la page d'authentification",
+		"inscriptionmsg" : "Votre inscription a bien été prise en compte. Un email vous sera adressé pour valider votre inscription."
+	},
+	"activation" : {
+		"current" :"Activation en cours",
+		"successMsg" : "Votre compte a bien été activé.",
+		"back" : "Retour vers la page d'authentification"
 	}
-	
 }
