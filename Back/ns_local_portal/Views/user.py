@@ -60,6 +60,7 @@ def createAccount(request):
         HasAccess = 0,
         Photos = None,
         IsObserver = 0,
+        Organisation = data['organisation']
         )
     DBSession.add(newUser)
     DBSession.flush()

@@ -20,15 +20,26 @@ events : {
        this.$el.i18n();
   },
   inscription : function(){
+    var locale = config.language;
     var name = $("input[name$='name']").val();
     var firstName = $("input[name$='firstName']").val();
     var mail = $("input[name$='mail']").val();
     var password = $("input[name$='password']").val();
     var password2 = $("input[name$='password2']").val();
+    var organisation   =  $("input[name$='organisation']").val();
     //var charte = $("input[name$='charte']").is(':checked');
-    if ( name == "" || firstName =="" || mail == ""  || password == "" ) {alert("Merci de renseigner tous les champs");}
-    else if (password!=password2){ alert("Merci de re-saisir votre mot de passe");} 
-    else if( !this.validateEmail(mail)) { alert("Merci de saisir une adresse mail valide");}
+    var fillFields ='Please fill in all fields';
+    var mailadr = 'Please re-enter your password';
+    var validmailadr = 'Please fill in a valid email adress';
+    if (locale  =='fr') {
+      fillFields = 'Merci de renseigner tous les champs';
+       mailadr = 'Merci de re-saisir votre mot de passe';
+      validmailadr = 'Merci de saisir une adresse mail valide';
+    }
+
+    if ( name == "" || firstName =="" || mail == ""  || password == "" ) {alert(fillFields);}
+    else if (password!=password2){ alert(mailadr);} 
+    else if( !this.validateEmail(mail)) { alert(validmailadr);}
     //else if (!charte){alert("Merci cocher la case relative &eacute; la charte");}
     else {
       //var formVal = $("#formInscription").serialize();
@@ -36,7 +47,8 @@ events : {
         'password' : this.pwd(password),
         'firstName' : firstName,
         'mail' : mail,
-        'name' : name
+        'name' : name,
+        'organisation' : organisation
       }; 
 
       console.log(formVal.password)

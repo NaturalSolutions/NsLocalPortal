@@ -27,7 +27,7 @@ class User(Base):
     HasAccess = Column( 'TUse_HasAccess', Boolean)
     Photos = Column( 'TUse_Photo', String(255))
     IsObserver = Column( 'TUse_Observer', Boolean)
-
+    Organisation =Column( 'TUse_Organisation', String(255), nullable=True)  
     @hybrid_property
     def fullname(self):
         """ Return the fullname of a user.
