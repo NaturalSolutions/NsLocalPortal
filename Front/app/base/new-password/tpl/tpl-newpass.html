@@ -1,0 +1,47 @@
+<div id="login-tpl" class="full-height login-page <%= siteClassName %>">
+	<div class="login-form">
+		<div id="logo" class="logo">
+			<i class="reneco reneco-releve"></i>
+		</div>
+		<br>
+		<h2><%= legend %></h2>
+		<!--<h3><%= locality %>, <%= country %></h3>-->
+		<br>
+		<h3><span data-i18n="login.newpassTitle">New password</span></h3>
+
+		<form class="" autocomplete="off" id="formNew">
+
+			<div class="wrapper resetpass">
+
+					<div class="form-group" id="pwd-group">
+						<span class="labelnewpass">input the new password</span>
+						<input id="newpassword" type="password" class="form-control" placeholder="new password"/>
+					</div>
+
+					<div class="form-group" id="pwd2-group">
+						<input type="password" style="display:none">
+						<span class="labelnewpass">confirm the password</span>
+						<input id="confirmnewpassword" type="password" class="form-control" placeholder="confirm new password"/>
+						<span id="help-password" class="help-block"></span>
+					</div>
+
+			</div>
+
+
+			<button id="resetPass-btn" type="submit" class="center-block form-control"><span data-i18n="login.resetBtn">Send</span></button>
+		</form>
+		<div id="msgNewPass" class="masqued">
+			<br/>
+			<p><span data-i18n="inscription.newpassmsg"></span></p>
+			<br/>
+			<p><a href='#' class="homeNav">
+				<button type="button" class="btn btnBack" id="authBtnBack"><span data-i18n="inscription.backBtn">Retour vers la page d'authentification</span></button>	
+			</a></p>
+
+		</div>
+		<br>
+
+	</div>
+
+</div>
+

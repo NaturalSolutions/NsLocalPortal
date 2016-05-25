@@ -1,0 +1,42 @@
+<div id="login-tpl" class="full-height login-page <%= siteClassName %>">
+	<div class="login-form">
+		<div id="logo" class="logo">
+			<i class="reneco reneco-releve"></i>
+		</div>
+		<br>
+		<h2><%= legend %></h2>
+		<!--<h3><%= locality %>, <%= country %></h3>-->
+		<br>
+		<h3><span data-i18n="login.resetTitle">Reset your password</span></h3>
+		<br>
+		<form class="" autocomplete="off" id="formReset">
+			<span data-i18n="login.resetMsg" class='resetMsg'></span>
+			<br>
+			<div class="wrapper resetpass">
+				<div class="form-group" id="login-group">
+				<input style="display:none">
+					<input id="emailreset" list="username_list" type="text"
+						class="form-control" placeholder="email adress"
+						autocomplete="off" autofocus/>
+					<span class="help-block"></span>
+				</div>
+
+			</div>
+
+			<button id="resetPass-btn" type="submit" class="center-block form-control"><span data-i18n="login.resetBtn">reset</span></button>
+		</form>
+		<div id="msgResetPass" class="masqued">
+			<br/>
+			<p><span data-i18n="inscription.inscriptionmsg"></span></p>
+			<br/>
+			<p><a href='#' class="homeNav">
+				<button type="button" class="btn btnBack" id="authBtnBack"><span data-i18n="inscription.backBtn">Retour vers la page d'authentification</span></button>	
+			</a></p>
+
+		</div>
+		<br>
+
+	</div>
+
+</div>
+

@@ -60,8 +60,19 @@ function(_, Marionette, $, config, Moment, LytTile) {
     },
 
     onShow: function(options) {
+      var locale = config.language;
+      var helloMsg = "guest";
+      if(locale == 'fr'){
+        helloMsg = "invité";
+      }
       this.style();
-      this.ui.user.html(this.model.get('firstname') + " " + this.model.get('lastname'));
+      var firstname = this.model.get('firstname');
+      var lastname = this.model.get('lastname');
+      
+      if (firstname || lastname ){
+        helloMsg = firstname + " " + lastname;
+      }  
+      this.ui.user.html(helloMsg);
       this.startTime();
       this.displayTiles();
       this.$el.i18n();
@@ -203,6 +214,9 @@ function(_, Marionette, $, config, Moment, LytTile) {
         success: function() {
           _this.tileCollView.render();
           _this.ui.tileContainer.html(_this.tileCollView.el);
+          //disable formbuilder & thesaurus
+          //$('.formbuilder').addClass('not-active');
+          //$('.thesaurus').addClass('not-active');
         }
       });
     },

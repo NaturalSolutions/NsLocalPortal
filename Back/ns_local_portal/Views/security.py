@@ -26,8 +26,11 @@ def login(request):
             "userlanguage": user.Language
         }
         jwt = make_jwt(request, claims)
+        print(jwt)
+        print(request)
         response = Response(body='login success', content_type='text/plain')
         remember(response, jwt)
+        print(response)
         transaction.commit()
         return response
     else:

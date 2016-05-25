@@ -1,37 +1,47 @@
-<div class="container-fluid header-ecoreleve">
+<!--<div class="container-fluid header-ecoreleve">
 	<a class="navbar-brand after">
 		<span class="reneco reneco-ecorelevesmall"></span>&nbsp;
 		ecoReleve
 	</a>
-</div>
+</div>-->
 <div class="container inscription">
 
 	<div class="clearfix ">
-			<div id="inscription" class="col-xs-5">
-				</br>
-				</br>
-				<h2>Inscription</h2></br>
+			<div id="inscription" class="col-xs-10">
+			<div class="inscrip">
+				<h3 id="titleFormInsc">Inscription</h3>
+			</div>	
 				<form id="formInscription">
+						<p>Please fill in the details below.</p>
+						
+						<div class="col-xs-6 forminput-left forminp">
+							<label><span data-i18n="inscription.firstname">First name</span></label><input class="form-control" type="text" name="firstName" placeholder="your first name" required=""> 
+						</div>
+						<div class="col-xs-6 forminput-right forminp">
+
+							<label><span data-i18n="inscription.name">Name</span></label> <input class="form-control" type="text" name="name" placeholder="your name" required=""> 
+
+						</div>
+					    <div class="forminp col-xs-12 formwide">
+							<label><span data-i18n="inscription.organisation">organization</span></label><input class="form-control" type="text" name="organisation" placeholder="your company or organization" required=""> 
+						</div>
+						<div class="forminp col-xs-12 formwide">
+							<label><span data-i18n="inscription.email">email adress*</span></label><input class="form-control required" type="email" name="email" placeholder="your email adress" required=""> 
+						</div>
+						<div class="col-xs-6 forminput-left forminp">
+							<label><span data-i18n="inscription.password">password*</span></label><input class="form-control required" type="password" name="password" placeholder="your password" required=""> 
+						</div>
+						<div class="col-xs-6 forminput-right forminp">
+							<label><span data-i18n="inscription.passwordConfirm">Confirm your password*</span></label><input class="form-control required" type="password" name="password2" placeholder="confirm your password" required=""> 
+						</div>
+						<div class="forminp col-xs-12 formwide">
+							<input type="checkbox" id="cboxupdate" name="updatenews" value="1" checked="checked"> <span  >receive important news (updates, releases …) </span>
+						</div>
+						<div class="forminp col-xs-12 formwide">
+							<input type="checkbox" id="cboxnews" name="teamnews" value="0"> <span>receive cool news from Ecoreleve Team</span>
+						</div>
 						<p>
-							<label><span data-i18n="inscription.name">Name</span></label> <input class="form-control" type="text" name="name" placeholder="votre nom" required=""> 
-						</p>
-						<p>
-							<label><span data-i18n="inscription.firstname">First name</span></label><input class="form-control" type="text" name="firstName" placeholder="votre prénom" required=""> 
-						</p>
-						<p>
-							<label><span data-i18n="inscription.email">email adress</span></label><input class="form-control" type="email" name="email" placeholder="votre adresse mail" required=""> 
-						</p>
-						<p>
-							<label><span data-i18n="inscription.password">password</span></label><input class="form-control" type="password" name="password" placeholder="votre mot de passe" required=""> 
-						</p>
-						<p>
-							<label><span data-i18n="inscription.passwordConfirm">Confirm your password</span></label><input class="form-control" type="password" name="password2" placeholder="confirmer" required=""> 
-						</p>
-						<p>
-							<label><span data-i18n="inscription.organisation">organisation</span></label><input class="form-control" type="text" name="organisation" placeholder="" required=""> 
-						</p>
-						<p>
-							<button type="button" class="btn btn-success" id="btnInscription"><span data-i18n="inscription.submit">Envoyer</span></button>
+							<button type="button" class="btn btn-success"  id="btnInscription"><span data-i18n="inscription.submit">Envoyer</span></button>
 						</p>
 					</form>
 				</div>
@@ -39,9 +49,38 @@
 					<br/>
 					<p><span data-i18n="inscription.inscriptionmsg"></span></p>
 					<br/>
-					<p><a href='#'>
-						<button type="button" class="btn btn-success"><span data-i18n="inscription.backBtn">Retour vers la page d'authentification</span></button>	
+					<p><a href='#' class='homeNav'>
+						<button type="button" class="btn btn-success" id="authBtnBack"><span data-i18n="inscription.backBtn">Retour vers la page d'authentification</span></button>	
 					</a></p>
+				</div>
+				<div id="inscripErrorInfos" class="masqued">
+					<br/>
+					<p><span data-i18n="inscription.inscripErrormsg"></span></p>
+					<br/>
+					<p><a href='#' class='homeNav'>
+						<button type="button" class="btn btnBack" id="authBtnBack"><span data-i18n="inscription.backBtn">Retour vers la page d'authentification</span></button>	
+					</a></p>
+				</div>
+				<div id="inscripError" class="masqued">
+					<br/>
+					<p><span data-i18n="inscription.inscripErrorUnknown"></span></p>
+					<br/>
+					<p><a href='#' class='homeNav'>
+						<button type="button" class="btn btn-success" id="authBtnBack"><span data-i18n="inscription.backBtn">Retour vers la page d'authentification</span></button>	
+					</a></p>
+				</div>
+				<div class="masqued">
+					<form id="formMailchimp" method="post">
+   
+						<input type="email" name="EMAIL"   id="mce-EMAIL">
+						<input type="text"  name="FNAME"   id="mce-FNAME">
+						<input type="text"  name="LNAME"   id="mce-LNAME">
+						<input type="text"  name="COMPANY"  id="mce-COMPANY">
+						<input type="number" name="UPDATENEWS" id="mce-UPDATENEWS">
+						<input type="number" name="TEAMNEWS"   id="mce-TEAMNEWS">
+						<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+
+					</form>
 				</div>
 
 	</div>

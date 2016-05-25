@@ -1,10 +1,12 @@
 define(['marionette', 'config',
 	'./base/home/lyt-home',
   './base/inscription/lyt-insc',
-  './base/activation/lyt-activate'
+  './base/activation/lyt-activate',
+  './base/resetPassword/lyt-resetPassword',
+  './base/new-password/lyt-new-password'
 
 ], function(Marionette, config,
-	LytHome,LytInscription,LytActivation
+	LytHome,LytInscription,LytActivation,LytResetPass,LytNewPass
 
 ) {
   'use strict';
@@ -27,7 +29,16 @@ define(['marionette', 'config',
     },
 
     activation : function(id) {
+      //Backbone.history.navigate('');
       this.rgMain.show(new LytActivation({userID: id}));
+    },
+    resetpassword :  function() {
+      //Backbone.history.navigate('');
+      this.rgMain.show(new LytResetPass({app: this.options.app}));
+    },
+    newpassword : function(id) {
+      //Backbone.history.navigate('');
+      this.rgMain.show(new LytNewPass({userID: id}));
     }
 
   });

@@ -1,7 +1,7 @@
 {
 	"home" : {
-		"hello" : "Hello",
-		"login" : "Login"
+		"hello" : "Welcome",
+		"login" : "Sign in"
 
 		},
 
@@ -18,23 +18,32 @@
 		"add" : "Add"
 	},
 	"login" : {
-		"loginInsMsg" : "You are not registered yet ?",
-		"footer" : "By"
+		"loginInsMsg" : "Not registered yet ? ",
+		"footer" : "By",
+		"forgotpass" : "Forgot password?",
+		"resetMsg" : "Enter your email address and we will send you a link to reset your password.",
+		"resetBtn" : "Send",
+		"resetTitle" : "Reset your password",
+		"newpassTitle" : "New password"
+	
 	},
 	"inscription" : {
 		"name" :"Last name",
 		"firstname"	: "First name",
-		"email" : "Email adress",
-		"password" : "Password",
-		"passwordConfirm" : "Confirm your password",
+		"email" : "Email address*",
+		"password" : "Password*",
+		"passwordConfirm" : "Confirm password*",
 		"organisation" : "Company or organization",
-		"submit" : "Submit",
-		"backBtn" : "Back to the authentication page",
-		"inscriptionmsg" : "Your registration has been taken into account. An email will be sent to you to confirm your registration."
+		"submit" : "Register",
+		"backBtn" : " Back to login page",
+		"inscriptionmsg" : "Your registration has been taken into account. An email will be sent to you to confirm your registration.",
+		"inscripErrormsg" : "You are already registred!",
+		"inscripErrorUnknown" : "Registration error. Please contact us at : contact@natural-solutions.eu",
+		"newpassmsg" : "The new password has been saved."	
 	},
 	"activation" : {
-		"current" :"Current activation",
+		"current" :"Activation process",
 		"successMsg" : "Your account has been activated.",
-		"back" : "Back to the authentication page"
+		"back" : "Back to the login page"
 	}
 }

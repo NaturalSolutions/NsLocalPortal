@@ -13,6 +13,8 @@ return Marionette.AppRouter.extend({
   appRoutes: {
     'inscription' : 'inscription',
     'activation/:id': 'activation',
+    'resetpassword' :'resetpassword',
+    'newpassword/:id' : 'newpassword',
     '*route(/:page)': 'home',
   },
 
@@ -37,12 +39,14 @@ return Marionette.AppRouter.extend({
         window.app.rootView.rgMain.show(new LytLogin());
         var currentRoute = Backbone.history.getFragment();
         var ss = currentRoute.search('activation');
+        var reset = currentRoute.search('resetpassword');
+        var newpass = currentRoute.search('newpassword');
 
         if (currentRoute == 'inscription') {
           window.app.rootView.rgMain.show(new LytInscription());
           Backbone.history.navigate('inscription', {trigger: true});
 
-        } else if (ss >= 0 ){
+        } else if (ss >= 0 || reset >= 0 || newpass >=0){
           callback.apply(this, args);
         }
 

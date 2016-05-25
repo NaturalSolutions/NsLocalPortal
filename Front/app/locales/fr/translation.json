@@ -19,18 +19,27 @@
 	},
 	"login" : {
 		"loginInsMsg" : "Vous n'êtes pas encore inscrit(e)?",
-		"footer" : "Par"
+		"footer" : "Par",
+		"forgotpass" : "Mot de passe oublié?",
+		"resetMsg" : "Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe .",
+		"resetBtn" : "Envoyer ",
+		"resetTitle" : "Reinitialiser votre mot de passe",
+		"newpassTitle" : "Choix du mot de passe"
+
 	},
 		"inscription" : {
 		"name" :"Nom",
 		"firstname"	: "Prénom",
-		"email" : "Adresse email",
-		"password" : "Mot de passe",
-		"passwordConfirm" : "Confirmer le mot de passe",
+		"email" : "Adresse email*",
+		"password" : "Mot de passe*",
+		"passwordConfirm" : "Confirmer le mot de passe*",
 		"organisation" : "Entreprise ou organisation",
 		"submit" : "Envoyer",
 		"backBtn" : "Retour vers la page d'authentification",
-		"inscriptionmsg" : "Votre inscription a bien été prise en compte. Un email vous sera adressé pour valider votre inscription."
+		"inscriptionmsg" : "Votre inscription a bien été prise en compte. Un email vous sera adressé pour valider votre inscription.",
+		"inscripErrormsg" : "Vous êtes déjà inscrit(e)!",
+		"inscripErrorUnknown" : "Erreur d'activation de compte. Merci de nous contacter par email : contact@natural-solutions.eu",
+		"newpassmsg" : "Nouveau mot de passe enregistré."	
 	},
 	"activation" : {
 		"current" :"Activation en cours",

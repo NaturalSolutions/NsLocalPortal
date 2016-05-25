@@ -1,3 +1,13 @@
+def add_cors_headers_response_callback(event):
+    def cors_headers(request, response):
+        response.headers.update({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST,GET,DELETE,PUT,OPTIONS',
+        'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Max-Age': '1728000',
+        })
+    event.request.add_response_callback(cors_headers)
 
 
 ### test if the match url is integer
@@ -6,7 +16,7 @@ def integers(*segment_names):
         match = info['match']
         for segment_name in segment_names:
             try:
-                print (segment_names)
+                #print (segment_names)
                 match[segment_name] = int(match[segment_name])
                 if int(match[segment_name]) == 0 :
                     print(' ****** ACTIONS FORMS ******')
@@ -34,6 +44,8 @@ def add_routes(config):
     ### Account ##### 
     config.add_route('core/account', 'portal-core/account')
     config.add_route('core/account/activation', 'portal-core/account/{id}/activation')
+    config.add_route('core/account/newpassword', 'portal-core/account/newpassword')
+    config.add_route('core/account/updatepassword', 'portal-core/account/updatepassword')
     # config.add_route('core/user', 'portal-core/user/')
 
 

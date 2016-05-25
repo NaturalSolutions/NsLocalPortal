@@ -17,13 +17,14 @@ from .Models import (
     Base,
     dbConfig,
     )
-from .Views import add_routes
+from .Views import add_routes,add_cors_headers_response_callback
 
 from .pyramid_jwtauth import (
     JWTAuthenticationPolicy,
     includeme
     )
 import base64
+from pyramid.events import NewRequest
 
 def datetime_adapter(obj, request):
     """Json adapter for datetime objects.
@@ -64,7 +65,7 @@ def main(global_config, **settings):
     includeme(config)
     config.set_root_factory(SecurityRoot)
 
-
+    config.add_subscriber(add_cors_headers_response_callback, NewRequest)
     # Set the default permission level to 'read'
     config.set_default_permission('read')
     config.include('pyramid_tm')

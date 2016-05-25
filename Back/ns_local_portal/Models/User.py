@@ -27,7 +27,12 @@ class User(Base):
     HasAccess = Column( 'TUse_HasAccess', Boolean)
     Photos = Column( 'TUse_Photo', String(255))
     IsObserver = Column( 'TUse_Observer', Boolean)
-    Organisation =Column( 'TUse_Organisation', String(255), nullable=True)  
+    Organisation =Column( 'TUse_Organisation', String(255), nullable=True) 
+    Updatenews =  Column('TUse_updatenews', Integer)
+    Teamnews = Column('TUse_teamnews', Integer)
+    Updatepasswdtime = Column('TUse_Updatepasswdtime', Integer)
+    Updatepasswdsecucode = Column( 'TUse_Updatepasswdsecucode', String(255))
+
     @hybrid_property
     def fullname(self):
         """ Return the fullname of a user.

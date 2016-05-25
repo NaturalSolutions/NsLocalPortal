@@ -1,19 +1,23 @@
 <div id="login-tpl" class="full-height login-page <%= siteClassName %>">
 	<div class="login-form">
-		<div id="logo" class="logo"></div>
+		<div id="logo" class="logo">
+			<i class="reneco reneco-releve"></i>
+		</div>
 		<br>
 		<h2><%= legend %></h2>
-		<h3><%= locality %>, <%= country %></h3>
+		<!--<h3><%= locality %>, <%= country %></h3>-->
+		<h3><span data-i18n="home.login"></span></h3>
 		<br>
 		<form class="" autocomplete="off">
 			<div class="wrapper">
 				<div class="form-group" id="login-group">
 				<input style="display:none">
 					<input id="UNportal" list="username_list" type="text"
-						class="form-control" placeholder="login"
+						class="form-control" placeholder="email adress"
 						autocomplete="off" autofocus/>
 					<span class="help-block"></span>
 				</div>
+
 
 				<div class="form-group" id="pwd-group">
 					<input type="password" style="display:none">
@@ -21,17 +25,17 @@
 					<span id="help-password" class="help-block"></span>
 				</div>
 			</div>
+			<span class='forgotpass'><a id="resetpassword" class="linkinscrip"><span  data-i18n="login.forgotpass"></span></a></span>
 			<button id="login-btn" type="submit" class="center-block form-control"><span data-i18n="home.login">Login</span></button>
 		</form>
-		<br>
 		<div class="loginInsc">
-		<span class="loginInsMsg"><span data-i18n="login.loginInsMsg">Vous n'êtes pas encore inscrit(e)?</span></span><br/>
-		<span  class="loginInscription"><a href="#inscription">Inscription</a></span>
+		<span class="loginInsMsg"><span data-i18n="login.loginInsMsg">Vous n'êtes pas encore inscrit(e)?</span></span>
+		<a  href="#inscription"><span  class="loginInscription">&nbsp;Register</span></a>
 		</div>
 
 	</div>
 	<span class="credits">
-		<span data-i18n="login.footer">By</span> <a TARGET="_blank" href="http://www.natural-solutions.eu/">Natural Solutions</a>
+		<span data-i18n="login.footer">By</span> <a TARGET="_blank" href="http://www.natural-solutions.eu/ ">Natural Solutions</a>
 	</span>
 
 </div>

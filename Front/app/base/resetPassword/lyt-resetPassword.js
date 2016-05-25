@@ -9,36 +9,24 @@ define(['marionette', 'backbone', 'sha1', 'config', 'jqueryui','i18n'],
 function(Marionette, Backbone, JsSHA, config, $ui) {
   'use strict';
   return Marionette.LayoutView.extend({
-    template: 'app/base/login/tpl/tpl-login.html',
+    template: 'app/base/resetPassword/tpl/tpl-resetPass.html',
     collection: new Backbone.Collection(),
     className: 'full-height',
 
     events: {
-      'submit': 'login',
+      'submit': 'send',
       'change #UNportal': 'checkUsername',
-      'click  #UNportal' : 'clearField',
       'focus input': 'clear',
       'blur input': 'unBlur',
-      'click #resetpassword' : 'resetPass'
+       'click .homeNav' : 'goHome'
     },
 
     ui: {
       err: '#help-password',
       pwd: '#pwd-group',
       logo: '#logo',
-      email : '#UNportal',
-      passwd : '#password'
     },
 
-    pwd: function(pwd) {
-
-      pwd = window.btoa(unescape(decodeURIComponent( pwd )));
-      var hashObj = new JsSHA('SHA-1', 'B64', 1);
-
-      hashObj.update(pwd);
-      pwd = hashObj.getHash('HEX');
-      return pwd;
-    },
 
     initialize: function() {
       this.model = window.app.siteInfo;
@@ -109,8 +97,14 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
       });
       this.$el.i18n();
       if(locale == 'fr'){
-          $(this.ui.email).attr("placeholder", "adresse email");
-          $(this.ui.passwd).attr("placeholder", "mot de passe");
+          $("#UNportal").attr("placeholder", "adresse email");
+          $("#password").attr("placeholder", "mot de passe");
+      }
+      if(window.app.currentUserEmail){
+        if(window.app.currentUserEmail !='Invalid email adress'){
+           $('#emailreset').val(window.app.currentUserEmail);
+        }
+       
       }
        
     },
@@ -123,37 +117,38 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
         if(locale == 'fr'){
               invalidUser = 'Adresse email invalide' ;
           }
-        //this.fail('#login-group', invalidUser);
-        $(this.ui.email).val(invalidUser);
-        $(this.ui.email).css('color', 'red');
+        this.fail('#login-group', invalidUser);
       }
     },
 
-    login: function(elt) {
+    send: function(elt) {
       var locale = config.language;
       var _this = this;
       elt.preventDefault();
       elt.stopPropagation();
-      var user = this.collection.findWhere({fullname: $('#UNportal').val()});
-      var url = config.coreUrl + 'security/login';
+      var email  =   $('#emailreset').val();
+      var user = this.collection.findWhere({fullname: email});
+      var url = config.coreUrl + 'account/newpassword';
       var self = this;
-
       if (user) {
         $.ajax({
           context: this,
           type: 'POST',
           url: url,
           data: {
-            userId: user.get('PK_id'),
-            password: this.pwd($('#password').val()),
+            mail : email
           },
         }).done(function() {
+            /*
           $('.login-form').addClass('rotate3d');
           window.app.user.set('name', $('#UNportal').val());
 
           setTimeout(function() {
             Backbone.history.navigate('', {trigger: true});
           }, 500);
+          */
+          $('#formReset').addClass('masqued');
+          $('#msgResetPass').removeClass('masqued');
 
         }).fail(function() {
           var invalidPass = 'Invalid password';
@@ -162,16 +157,15 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
           }
           this.fail('#pwd-group', invalidPass);
           this.shake();
-		      $(this.ui.passwd).val('');
+		  $('#password').val('');
         });
+        
       } else {
         var invalidUser = 'Invalid email adress';
         if(locale == 'fr'){
               invalidUser = 'Adresse email invalide' ;
           }
-        //this.fail('#login-group', invalidUser);
-        $(this.ui.email).val(invalidUser);
-        $(this.ui.email).css('color', 'red');
+        this.fail('#login-group', invalidUser);
         this.shake();
       }
     },
@@ -187,16 +181,10 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
         $('.login-form').removeClass('animated shake');
       }, 1000);
     },
-    resetPass : function(){
-      // get current email adress
-      window.app.currentUserEmail = $('#UNportal').val();
-      // navigate to reset pass page
-      Backbone.history.navigate('#resetpassword', {trigger: true});
-    },
-    clearField : function(){
-        $(this.ui.email).val('');
-        $(this.ui.email).css('color', 'white');
+    goHome : function()  {
+        Backbone.history.navigate('', {trigger: true});
     }
+
 
   });
 });
