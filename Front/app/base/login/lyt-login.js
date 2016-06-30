@@ -5,8 +5,8 @@
 	- autocomplete vincent plugin (bb collection)
 
 **/
-define(['marionette', 'backbone', 'sha1', 'config', 'jqueryui','i18n'],
-function(Marionette, Backbone, JsSHA, config, $ui) {
+define(['marionette', 'backbone', 'sha1', 'config', 'jqueryui', 'sweetAlert','i18n'],
+function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
   'use strict';
   return Marionette.LayoutView.extend({
     template: 'app/base/login/tpl/tpl-login.html',
@@ -111,6 +111,19 @@ function(Marionette, Backbone, JsSHA, config, $ui) {
       if(locale == 'fr'){
           $(this.ui.email).attr("placeholder", "adresse email");
           $(this.ui.passwd).attr("placeholder", "mot de passe");
+      }
+	  var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+      if (isMobile.matches) {
+          Swal({
+              title: 'Mobile compatibility',
+              text: 'This application is not adapted to mobile browsers yet',
+              type: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: 'rgb(221, 107, 85)',
+              confirmButtonText: 'OK',
+              closeOnConfirm: true
+          });
+		  $('.sweet-alert.showSweetAlert.visible').css('margin-left', '0px;');
       }
        
     },
