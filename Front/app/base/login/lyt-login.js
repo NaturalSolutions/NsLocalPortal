@@ -113,7 +113,7 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
           $(this.ui.passwd).attr("placeholder", "mot de passe");
       }
 	  var isMobile = window.matchMedia("only screen and (max-width: 760px)");
-      if (isMobile.matches) {
+      if (isMobile.matches && (!window.alertMobile)) {
           Swal({
               title: 'Mobile compatibility',
               text: 'This application is not adapted to mobile browsers yet',
@@ -123,15 +123,28 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
               confirmButtonText: 'OK',
               closeOnConfirm: true
           });
-		  $('.sweet-alert.showSweetAlert.visible').css('margin-left', '0px;');
+		      $('.sweet-alert.showSweetAlert.visible').css('margin-left', '0px;');
+          window.alertMobile = true;
       }
        
     },
 
     checkUsername: function() {
       var locale = config.language;
-      var user = this.collection.findWhere({fullname: $('#UNportal').val()});
-      if (!user) {
+      var user = $('#UNportal').val();
+      //var user = this.collection.findWhere({fullname: $('#UNportal').val()});
+      var userModel = this.collection.find(function(model) { 
+
+        if (model.get('fullname').toLowerCase() === user.toLowerCase()) {
+          return model ;
+
+        } else {
+          return false ;
+        }
+
+      });
+
+      if (!userModel) {
         var invalidUser = 'Invalid email adress';
         if(locale == 'fr'){
               invalidUser = 'Adresse email invalide' ;
@@ -147,17 +160,30 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
       var _this = this;
       elt.preventDefault();
       elt.stopPropagation();
-      var user = this.collection.findWhere({fullname: $('#UNportal').val()});
+      //var user = this.collection.findWhere({fullname: $('#UNportal').val()});
+      var user = $('#UNportal').val();
+      //var userModel = this.collection.findWhere({fullname: user});
+      var userModel = this.collection.find(function(model) { 
+
+        if (model.get('fullname').toLowerCase() === user.toLowerCase()) {
+          return model ;
+
+        } else {
+          return false ;
+        }
+
+      });
+
       var url = config.coreUrl + 'security/login';
       var self = this;
 
-      if (user) {
+      if (userModel) {
         $.ajax({
           context: this,
           type: 'POST',
           url: url,
           data: {
-            userId: user.get('PK_id'),
+            userId: userModel.get('PK_id'),
             password: this.pwd($('#password').val()),
           },
         }).done(function() {

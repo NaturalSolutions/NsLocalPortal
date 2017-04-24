@@ -50,6 +50,7 @@ events : {
     var password = $(this.ui.password).val();
     var password2 = $(this.ui.confirmpass).val();
     var organisation   =  $(this.ui.organisation).val();
+    var language = $('#language').val();
     var updatenews = 0 ;   
     var teamnews  = 0 ;  
     if($(this.ui.updatenews).is(":checked")) {updatenews = 1}
@@ -120,7 +121,8 @@ events : {
         'name' : name,
         'organisation' : organisation,
         'updatenews' : updatenews,
-        'teamnews' :teamnews
+        'teamnews' :teamnews,
+        'language' : language
       }; 
 
       var url =config.coreUrl+"account";

@@ -58,8 +58,8 @@ function(Marionette, config) {
     },
     insertForm : function(){
       var frm = '<div class="supportpanel hidden">'
-      frm +='<iframe width="560" height="580" src="https://beta.pipefy.com/public_form/49561?embedded=true" frameborder="0" id="iframe"></iframe>'
-      frm+='<a class="pipefyclose"><span class="reneco reneco-close"></span></a> </div>';
+      frm +='<iframe width="560" height="580" src="https://beta.pipefy.com/public_form/49561?embedded=true" frameborder="0" id="iframe"></iframe></div>';
+      //frm+='<a class="pipefyclose"><span class="reneco reneco-close"></span></a> </div>';
       this.$el.append(frm);
       this.controlformdisplay();
     },
@@ -67,8 +67,15 @@ function(Marionette, config) {
       var frmpanel = this.$el.find('.supportpanel')[0];
       var notdisplayed = $(frmpanel).hasClass('hidden');
       if(notdisplayed){
-        $(frmpanel).removeClass('hidden').animate({ "right": "+=560px" }, "slow" );
+        //$(frmpanel).removeClass('hidden').animate({ "right": "+=560px" }, "slow" );
+        $('div.supportpanel').removeClass('hidden').animate({ 
+          "right": "+=560px"}, { duration: 700, 
+          complete: function() {
+              $('.supportpanel').append('<a class="pipefyclose"><span class="reneco reneco-close"></span></a>');
+          } 
+        }
 
+       );
       } else {
         this.closeform();
       }

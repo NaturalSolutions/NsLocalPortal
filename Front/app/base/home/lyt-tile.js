@@ -17,7 +17,7 @@ function(Marionette) {
             this.model.set({'icon' : 'reneco-security'});
             break;
           case 'formbuilder':
-            this.model.set({'icon' : 'reneco-releve'});
+            this.model.set({'icon' : 'reneco-formbuilder'});
             break;
           case 'thesaurus':
             this.model.set({'icon' : 'reneco-thesaurus'});

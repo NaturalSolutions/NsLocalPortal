@@ -4,6 +4,7 @@ from pyramid.view import view_config
 from ..Models import DBSession, User
 from pyramid.interfaces import IAuthenticationPolicy
 from pyramid.response import Response
+from sqlalchemy import func
 
 import transaction
 
@@ -15,8 +16,9 @@ route_prefix = 'security/'
     request_method='POST')
 def login(request): 
     user_id = request.POST.get('userId', '')
+    #user_id =  user_id.upper()
     pwd = request.POST.get('password', '')
-    user = DBSession.query(User).filter(User.id==user_id).one()
+    user = DBSession.query(User).filter(func.upper(User.id)== func.upper(user_id)).one()
     
 
     if user is not None and user.check_password(pwd):
