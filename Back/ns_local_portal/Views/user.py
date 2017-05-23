@@ -17,24 +17,22 @@ import time
 import datetime
 import hashlib
 
-
-@view_config(
-    route_name='core/user',
-    permission=NO_PERMISSION_REQUIRED,
-    renderer='json'
-)
-def users(request):
-    """Return the list of all the users with their ids.
+@view_config(route_name='core/user',renderer='json',permission=NO_PERMISSION_REQUIRED )
+def getUsers(request):
+    """Return the list of all the users with their roles.
     """
-    query = select([
-        User.id.label('PK_id'),
-        User.Login.label('fullname')
-    ]).where(User.HasAccess == True).order_by(User.Lastname, User.Firstname)
-
-
     
+	q = (session.query(T_User, T_Role)
+        .join(T_Role)
+        .filter(T_User.Fk_Trole == T_Role.ID_Role)
+        ).all()
 
-    return [dict(row) for row in DBSession.execute(query).fetchall()]
+	q = q.columns(T_User.id, T_User.firstname, T_User.familyname, T_User.login, T_Role.nomRole)
+
+
+	results = request.dbsession.execute(q).fetchall()
+	data = [dict(row) for row in results]
+	return data
     
 @view_config(
     route_name='core/currentUser',
