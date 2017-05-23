@@ -16,6 +16,12 @@ from datetime import date
 import time
 import datetime
 import hashlib
+from sqlalchemy import text,bindparam,and_
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String
+from sqlalchemy import create_engine
+import json
+
 
 @view_config(route_name='core/user',renderer='json',permission=NO_PERMISSION_REQUIRED )
 def getUsers(request):
