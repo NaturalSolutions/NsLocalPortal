@@ -33,6 +33,8 @@ class User(Base):
     Updatepasswdtime = Column('TUse_Updatepasswdtime', Integer)
     Updatepasswdsecucode = Column( 'TUse_Updatepasswdsecucode', String(255))
 
+#Commentaire 1
+
     @hybrid_property
     def fullname(self):
         """ Return the fullname of a user.
