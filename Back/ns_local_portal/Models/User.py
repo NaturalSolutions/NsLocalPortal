@@ -9,19 +9,47 @@ from sqlalchemy import (
    Boolean
  )
 
+from sqlalchemy.ext.hybrid import hybrid_property
+from ..Models import Base, dbConfig
 
+db_dialect = dbConfig['dialect']
 
-engine = create_engine('PostgreSQL 9.6/NsPortal:', echo=True)
+class User(Base):
+    __tablename__ = 'TUsers'
+    id = Column('TUse_PK_ID', Integer, primary_key=True)
+    Lastname = Column( 'TUse_LastName', String(50), nullable=False)
+    Firstname = Column( 'TUse_FirstName', String(50), nullable=False)
+    CreationDate = Column( 'TUse_CreationDate', DateTime, nullable=False,server_default=func.now())
+    Login = Column( 'TUse_Login', String(255), nullable=False)
+    Password = Column( 'TUse_Password', String(50), nullable=False)
+    Language = Column( 'TUse_Language', String(5))
+    ModificationDate = Column( 'TUse_ModificationDate', DateTime, nullable=False,server_default=func.now())
+    HasAccess = Column( 'TUse_HasAccess', Boolean)
+    Photos = Column( 'TUse_Photo', String(255))
+    IsObserver = Column( 'TUse_Observer', Boolean)
+    Organisation =Column( 'TUse_Organisation', String(255), nullable=True) 
+    Updatenews =  Column('TUse_updatenews', Integer)
+    Teamnews = Column('TUse_teamnews', Integer)
+    Updatepasswdtime = Column('TUse_Updatepasswdtime', Integer)
+    Updatepasswdsecucode = Column( 'TUse_Updatepasswdsecucode', String(255))
 
-
-
-class T_User(db.Model):
-    id            = db.Column(db.Integer, primary_key = True)
-    firstname     = db.Column(db.String)
-    familyname    = db.Column(db.String)
-    login		  = db.Column(db.String)
-    fk_Trole      = db.Column(db.Integer, db.ForeignKey('T_Role.id'))
-
-class T_Role(db.Model):
-    id            = db.Column(db.Integer, primary_key = True)
-    nomRole       = db.Column(db.String, index = True)
+    @hybrid_property
+    def fullname(self):
+        """ Return the fullname of a user.
+        """
+        return self.Lastname + ' ' + self.Firstname
+    
+    def check_password(self, given_pwd):
+        """Check the password of a user.
+        
+        Parameters
+        ----------
+        given_pwd : string
+            The password to check, assumed to be an SHA1 hash of the real one.
+            
+        Returns
+        -------
+        boolean
+            Either the password matches or not
+        """
+        return self.Password == given_pwd.lower()

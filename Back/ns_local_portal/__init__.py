@@ -42,7 +42,7 @@ def bytes_adapter(obj, request):
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    settings['sqlalchemy.url'] = settings['cn.dialect'] + quote_plus(settings['sqlalchemy.url'])
+    #settings['sqlalchemy.url'] = settings['cn.dialect'] + quote_plus(settings['sqlalchemy.url'])
     engine = engine_from_config(settings, 'sqlalchemy.')
     dbConfig['url'] = settings['sqlalchemy.url']
     dbConfig['siteName'] = settings['siteName']

@@ -18,7 +18,9 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    'webtest'
+    'webtest',
+    'psycopg2',
+    'pyjwt'
     ]
 
 setup(name='ns_local_portal',
