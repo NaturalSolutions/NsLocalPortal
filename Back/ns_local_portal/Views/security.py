@@ -18,7 +18,7 @@ def login(request):
     user_id = request.POST.get('userId', '')
     #user_id =  user_id.upper()
     pwd = request.POST.get('password', '')
-    user = DBSession.query(User).filter(func.upper(User.id)== func.upper(user_id)).one()
+    user = DBSession.query(User).filter(User.id== user_id).one()
     
 
     if user is not None and user.check_password(pwd):

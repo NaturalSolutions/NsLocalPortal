@@ -50,13 +50,16 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
     initialize: function() {
       this.model = window.app.siteInfo;
 
-      var tmp = this.model.get('label').split('^');
-      if (tmp.length > 1) {
-        this.model.set({'sup' : tmp[1]});
-      }else {
-        this.model.set({'sup' : ''});
-      }
-      this.model.set({'title' : tmp[0]});
+      if (this.model.get('label')){
+        var tmp = this.model.get('label').split('^');
+        if (tmp.length > 1) {
+          this.model.set({'sup' : tmp[1]});
+        }else {
+          this.model.set({'sup' : ''});
+        }
+        this.model.set({'title' : tmp[0]});
+        }
+    
     },
 
     unBlur: function(){
