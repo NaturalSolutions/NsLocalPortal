@@ -30,9 +30,10 @@ def site(request):
     renderer='json'
 )
 def instance(request):
-    table = Base.metadata.tables['VAllUsersApplications']
-    query = select([
-        table
-    ]).where((table.c['TSit_Name'] == dbConfig['siteName']) & (table.c['TUse_PK_ID'] == request.authenticated_userid) & (table.c['TRol_Label'] != 'Interdit')).order_by(table.c['TIns_Order'])
-    result = DBSession.execute(query).fetchall()
-    return [dict(row) for row in result]
+    pass
+    # table = Base.metadata.tables['VAllUsersApplications']
+    # query = select([
+    #     table
+    # ]).where((table.c['TSit_Name'] == dbConfig['siteName']) & (table.c['TUse_PK_ID'] == request.authenticated_userid) & (table.c['TRol_Label'] != 'Interdit')).order_by(table.c['TIns_Order'])
+    # result = DBSession.execute(query).fetchall()
+    # return [dict(row) for row in result]
