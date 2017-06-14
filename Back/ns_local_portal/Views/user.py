@@ -23,6 +23,22 @@ from sqlalchemy import create_engine
 import json
 
 @view_config(
+    route_name='core/userManagement',
+    permission=NO_PERMISSION_REQUIRED,
+    renderer='json'
+)
+def usersManagement(request):
+    """Return the list of all the users with their ids.
+    """
+    query = select([
+        User.id.label('PK_id'),
+        User.Login.label('Login')
+    ]).order_by(User.Lastname, User.Firstname)
+
+    return [dict(row) for row in DBSession.execute(query).fetchall()]
+
+
+@view_config(
     route_name='core/user',
     permission=NO_PERMISSION_REQUIRED,
     renderer='json'

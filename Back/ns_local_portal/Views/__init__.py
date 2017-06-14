@@ -35,6 +35,7 @@ def add_routes(config):
     ##### User #####
     config.add_route('core/user', 'portal-core/user')
     config.add_route('core/currentUser', 'portal-core/currentUser')
+    config.add_route('core/userManagement', 'portal-core/userManagement')
 
 
     ##### Site #####
