@@ -22,23 +22,22 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy import create_engine
 import json
 
+@view_config(
+    route_name='core/user',
+    permission=NO_PERMISSION_REQUIRED,
+    renderer='json'
+)
+def users(request):
+    """Return the list of all the users with their ids.
+    """
+    query = select([
+        User.id.label('PK_id'),
+        User.Login.label('fullname')
+    ]).where(User.HasAccess == True).order_by(User.Lastname, User.Firstname)
 
-# @view_config(route_name='core/user',renderer='json',permission=NO_PERMISSION_REQUIRED )
-# def getUsers(request):
-#     """Return the list of all the users with their roles.
-#     """
     
-# 	q = (session.query(T_User, T_Role)
-#         .join(T_Role)
-#         .filter(T_User.Fk_Trole == T_Role.ID_Role)
-#         ).all()
 
-# 	q = q.columns(T_User.id, T_User.firstname, T_User.familyname, T_User.login, T_Role.nomRole)
-
-
-# 	results = request.dbsession.execute(q).fetchall()
-# 	data = [dict(row) for row in results]
-# 	return data
+    return [dict(row) for row in DBSession.execute(query).fetchall()]
     
 @view_config(
     route_name='core/currentUser',
@@ -47,12 +46,13 @@ import json
 def current_user(request):
     """Return the list of all the users with their ids.
     """
+    print(request.authenticated_userid)
     query = select([
         User.id.label('PK_id'),
         User.Login.label('fullname'),
         User.Firstname.label('firstname'),
         User.Lastname.label('lastname')
-    ]).where(User.id == request.authenticated_userid)
+    ]).where(User.id == request.authenticated_userid['iss'])
     return dict(DBSession.execute(query).fetchone())
 
 
