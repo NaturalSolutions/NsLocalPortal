@@ -11,6 +11,35 @@ import transaction
 route_prefix = 'security/'
 
 @view_config(
+    route_name='adminTest',
+    permission=NO_PERMISSION_REQUIRED,
+    renderer='json'
+)
+def adminTest(request):
+    """Return 1 si l'utilisateur courant est un Admin. 
+    L'ID de l'utilisateur courant doit être passé en paramètres, sinon la fonction retourne 0.
+    """
+    if len( request.params ) > 0:
+        if 'idUser' in request.params.keys() :
+
+            iDUser = "\'"+request.params['iDUser']+"\'"
+
+            query = select([
+            Authorisation.Role.label('FK_idRole'),
+            ]).where(Authorisation.FK_User == idUser)
+            
+            #query = text('SELECT A.TAut_FK_TRolID FROM TAutorisations A WHERE '+idDUser+' = A.TAut_FK_TUseID')
+
+            results = DBSession.execute(query).fetchone()
+            print(type(results))
+            data = [dict(row) for row in results]
+        else:
+            data = 0
+    else:
+        data = 0
+    return data
+
+@view_config(
     route_name=route_prefix+'login',
     permission=NO_PERMISSION_REQUIRED,
     request_method='POST')
