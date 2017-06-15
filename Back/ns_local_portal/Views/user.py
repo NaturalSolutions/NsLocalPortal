@@ -1,7 +1,7 @@
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from sqlalchemy import select,func
-from sqlalchemy import update
+from sqlalchemy import update, insert
 from ..Models import DBSession, User,dbConfig, Authorisation, UserDepartement
 from email.mime.text import MIMEText
 from email import message
@@ -33,9 +33,47 @@ def usersManagement(request):
     query = select([
         User.id.label('PK_id'),
         User.Login.label('Login')
-    ]).order_by(User.Lastname, User.Firstname)
+    ]).order_by(User.id)
 
     return [dict(row) for row in DBSession.execute(query).fetchall()]
+
+@view_config(
+
+#Encodé en dur, les ajouts doivent encore être mis être mis en paramètres. 
+
+    route_name='core/userInsert',
+    permission=NO_PERMISSION_REQUIRED,
+    #renderer='json'
+)
+def userInsert(request):
+
+    int queryIdUser = session.query(func.max(User.id.label('idUserMax')))
+    queryIdUser += 1
+
+    int queryIdAuth = session.query(func.max(Authorisation.id.label('idAuthMax')))
+    queryIdAuth += 1
+
+    User.insert().values(
+        id=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
+        Lastname=request.newUserLastname,
+        Firstname=request.newUserName,
+        CreationDate=request.newCreationDate,
+        login=request.newUserLogin,
+        Password=request.newUserPassword,
+        ModificationDate=request.newModificationDate)
+
+    if request.isAdmin == true:
+
+        Authorisation.insert().values(id=queryIdAuth, #Ici envoyer le résultat de la requête qui renvoie l'Authorisation_ID Max+1
+            FK_User=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
+            Instance=1,
+            Role=1) #L'utilisateur créé est un Admin, on met son rôle à 1
+    else:
+        
+        Authorisation.insert().values(id=queryIdAuth, #Ici envoyer le résultat de la requête qui renvoie l'Authorisation_ID Max+1
+            FK_User=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
+            Instance=1,
+            Role=2) #L'utilisateur créé n'est  pas un Admin, on met son rôle à 2
 
 
 @view_config(
