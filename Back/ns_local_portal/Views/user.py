@@ -39,18 +39,16 @@ def usersManagement(request):
 
 @view_config(
 
-#Encodé en dur, les ajouts doivent encore être mis être mis en paramètres. 
-
     route_name='core/userInsert',
     permission=NO_PERMISSION_REQUIRED,
     #renderer='json'
 )
 def userInsert(request):
 
-    int queryIdUser = session.query(func.max(User.id.label('idUserMax')))
+    queryIdUser = session.query(func.max(User.id.label('idUserMax')))
     queryIdUser += 1
 
-    int queryIdAuth = session.query(func.max(Authorisation.id.label('idAuthMax')))
+    queryIdAuth = session.query(func.max(Authorisation.id.label('idAuthMax')))
     queryIdAuth += 1
 
     User.insert().values(
@@ -69,7 +67,7 @@ def userInsert(request):
             Instance=1,
             Role=1) #L'utilisateur créé est un Admin, on met son rôle à 1
     else:
-        
+
         Authorisation.insert().values(id=queryIdAuth, #Ici envoyer le résultat de la requête qui renvoie l'Authorisation_ID Max+1
             FK_User=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
             Instance=1,

@@ -11,7 +11,7 @@ import transaction
 route_prefix = 'security/'
 
 @view_config(
-    route_name='adminTest',
+    route_name=route_prefix+'adminTest',
     permission=NO_PERMISSION_REQUIRED,
     renderer='json'
 )
