@@ -28,11 +28,15 @@ import json
     renderer='json'
 )
 def usersManagement(request):
-    """Return the list of all the users with their ids.
+    """Return the list of all the users with their relevant data.
     """
     query = select([
         User.id.label('PK_id'),
-        User.Login.label('Login')
+        User.Login.label('Login'),
+        User.Lastname.label('Lastname'),
+        User.Firstname.label('Firstname'),
+        User.CreationDate.label('CreationDate'),
+        User.ModificationDate.label('ModificationDate')
     ]).order_by(User.id)
 
     return [dict(row) for row in DBSession.execute(query).fetchall()]
@@ -53,26 +57,18 @@ def userInsert(request):
 
     User.insert().values(
         id=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
-        Lastname=request.newUserLastname,
-        Firstname=request.newUserName,
-        CreationDate=request.newCreationDate,
-        login=request.newUserLogin,
-        Password=request.newUserPassword,
-        ModificationDate=request.newModificationDate)
+        Lastname=data['name'],
+        Firstname=data['firstName'],
+        CreationDate=func.now(),
+        login=data['mail'],
+        Password=data['password'],
+        Langage=data['language'],
+        ModificationDate=func.now())
 
-    if request.isAdmin == true:
-
-        Authorisation.insert().values(id=queryIdAuth, #Ici envoyer le résultat de la requête qui renvoie l'Authorisation_ID Max+1
-            FK_User=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
-            Instance=1,
-            Role=1) #L'utilisateur créé est un Admin, on met son rôle à 1
-    else:
-
-        Authorisation.insert().values(id=queryIdAuth, #Ici envoyer le résultat de la requête qui renvoie l'Authorisation_ID Max+1
-            FK_User=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
-            Instance=1,
-            Role=2) #L'utilisateur créé n'est  pas un Admin, on met son rôle à 2
-
+    Authorisation.insert().values(id=queryIdAuth, #Ici envoyer le résultat de la requête qui renvoie l'Authorisation_ID Max+1
+        FK_User=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
+        Instance=1,
+        Role=data['role']) #L'utilisateur créé est un Admin, on met son rôle à 1
 
 @view_config(
     route_name='core/user',

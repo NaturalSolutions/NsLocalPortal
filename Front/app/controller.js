@@ -4,10 +4,11 @@ define(['marionette', 'config',
   './base/activation/lyt-activate',
   './base/resetPassword/lyt-resetPassword',
   './base/new-password/lyt-new-password',
+  './base/usercreation/lyt-createUser',
   './base/grid/grid'
 
 ], function(Marionette, config,
-	LytHome,LytInscription,LytActivation,LytResetPass,LytNewPass,grid
+	LytHome,LytInscription,LytActivation,LytResetPass,LytNewPass,UserCreation,grid
 
 ) {
   'use strict';
@@ -27,7 +28,10 @@ define(['marionette', 'config',
       Backbone.history.navigate('grid');
       this.rgMain.show(new grid({app: this.options.app}));
     },
-
+    userCreation: function() {
+      Backbone.history.navigate('lyt-createUser');
+      this.rgMain.show(new UserCreation({app: this.options.app}));
+    },
     inscription : function() {
       Backbone.history.navigate('');
       this.rgMain.show(new LytInscription({app: this.options.app}));

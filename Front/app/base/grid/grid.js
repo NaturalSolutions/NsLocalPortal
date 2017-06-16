@@ -12,10 +12,13 @@ define(['marionette', 'backbone', 'sha1', 'config', 'jqueryui', 'sweetAlert','ag
         },
 
         initialize: function() {
-            console.log("dans init grid");
             this.columnDefs = [
             {headerName: "ID", field: "PK_id"},
-            {headerName: "Full Name", field: "Login"}
+            {headerName: "Login", field: "Login"},
+            {headerName: "Lastname", field: "Last Name"},
+            {headerName: "Firstname", field: "First Name"},
+            {headerName: "Creation Date", field: "CreationDate"},
+            {headerName: "Last Modification Date", field: "ModificationDate"}
             ];
 
 
