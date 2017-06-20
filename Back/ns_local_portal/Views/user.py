@@ -1,7 +1,7 @@
 from pyramid.security import NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
 from sqlalchemy import select,func
-from sqlalchemy import update
+from sqlalchemy import update, insert
 from ..Models import DBSession, User,dbConfig, Authorisation, UserDepartement
 from email.mime.text import MIMEText
 from email import message
@@ -21,6 +21,54 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy import create_engine
 import json
+
+@view_config(
+    route_name='core/userManagement',
+    permission=NO_PERMISSION_REQUIRED,
+    renderer='json'
+)
+def usersManagement(request):
+    """Return the list of all the users with their relevant data.
+    """
+    query = select([
+        User.id.label('PK_id'),
+        User.Login.label('Login'),
+        User.Lastname.label('Lastname'),
+        User.Firstname.label('Firstname'),
+        User.CreationDate.label('CreationDate'),
+        User.ModificationDate.label('ModificationDate')
+    ]).order_by(User.id)
+
+    return [dict(row) for row in DBSession.execute(query).fetchall()]
+
+@view_config(
+
+    route_name='core/userInsert',
+    permission=NO_PERMISSION_REQUIRED,
+    #renderer='json'
+)
+def userInsert(request):
+
+    queryIdUser = session.query(func.max(User.id.label('idUserMax')))
+    queryIdUser += 1
+
+    queryIdAuth = session.query(func.max(Authorisation.id.label('idAuthMax')))
+    queryIdAuth += 1
+
+    User.insert().values(
+        id=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
+        Lastname=data['name'],
+        Firstname=data['firstName'],
+        CreationDate=func.now(),
+        login=data['mail'],
+        Password=data['password'],
+        Langage=data['language'],
+        ModificationDate=func.now())
+
+    Authorisation.insert().values(id=queryIdAuth, #Ici envoyer le résultat de la requête qui renvoie l'Authorisation_ID Max+1
+        FK_User=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
+        Instance=1,
+        Role=data['role']) #L'utilisateur créé est un Admin, on met son rôle à 1
 
 @view_config(
     route_name='core/user',

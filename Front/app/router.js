@@ -5,8 +5,8 @@
 
 **/
 define(['jquery', 'marionette', 'backbone', 'config', './base/login/lyt-login', 
-  './base/header/lyt-header','./base/inscription/lyt-insc','./base/activation/lyt-activate'],
-  function($, Marionette, Backbone, config, LytLogin, LytHeader, LytInscription,LytActivation) {
+  './base/header/lyt-header','./base/inscription/lyt-insc','./base/activation/lyt-activate','./base/grid/grid','./base/usercreation/lyt-createUser'],
+  function($, Marionette, Backbone, config, LytLogin, LytHeader, LytInscription,LytActivation,grid,userCreation) {
 
 'use strict';
 return Marionette.AppRouter.extend({
@@ -15,7 +15,11 @@ return Marionette.AppRouter.extend({
     'activation/:id': 'activation',
     'resetpassword' :'resetpassword',
     'newpassword/:id' : 'newpassword',
-    '*route(/:page)': 'home',
+    'grid':'grid',
+    'userCreation':'userCreation',
+    '*route(/:page)': 'home'
+
+
   },
 
   execute: function(callback, args) {

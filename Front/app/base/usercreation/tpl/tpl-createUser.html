@@ -1,0 +1,90 @@
+
+<div class="container userCreation">
+
+	<div class="clearfix ">
+			<div id="userCreation" class="col-xs-10">
+			<div class="userCreation">
+				<h3 id="titleFormUserCreation">Creation d'un User</h3>
+			</div>	
+				<form id="formInscription">
+						<p>Fill this form to add a new user.</p>
+						
+						<div class="col-xs-6 forminput-left forminp">
+							<label><span data-i18n="userCreation.firstname">First name</span></label><input class="form-control" type="text" name="firstName" placeholder="first name" required=""> 
+						</div>
+						<div class="col-xs-6 forminput-right forminp">
+
+							<label><span data-i18n="userCreation.name">Name</span></label> <input class="form-control" type="text" name="name" placeholder="name" required=""> 
+
+						</div>
+					    <div class="forminp col-xs-12 formwide">
+							<label><span data-i18n="userCreation.organisation">organization</span></label><input class="form-control" type="text" name="organisation" placeholder="company or organization" required=""> 
+						</div>
+						<div class="forminp col-xs-6 forminput-left">
+							<label><span data-i18n="userCreation.email">email adress*</span></label><input class="form-control required" type="email" name="email" placeholder="email adress" required=""> 
+						</div>
+						<div class="forminp col-xs-6 forminput-right">
+							<label><span data-i18n="userCreation.language">language</span></label>
+							<select id="language" class="form-control">
+							  <option value="en">english</option> 
+							  <option value="fr">français</option>
+							</select>	
+						</div>
+						<div class="col-xs-6 forminput-left forminp">
+							<label><span data-i18n="userCreation.password">password*</span></label><input class="form-control required" type="password" name="password" placeholder="password" required=""> 
+						</div>
+						<div class="col-xs-6 forminput-right forminp">
+							<label><span data-i18n="userCreation.passwordConfirm">Confirm password*</span></label><input class="form-control required" type="password" name="password2" placeholder="confirm password" required=""> 
+						</div>
+						<div class="forminp col-xs-6 forminput-right">
+							<label><span data-i18n="userCreation.role">Role</span></label>
+							<select id="role" class="form-control">
+							  <option value=1>Admin</option> 
+							  <option value=2>User</option>
+							</select>	
+						</div>
+						<p>
+							<button type="button" class="btn btn-success"  id="btnCreation"><span data-i18n="userCreation.submit">Envoyer</span></button>
+						</p>
+					</form>
+				</div>
+				<div id="userCreationInfos" class="masqued">
+					<br/>
+					<p><span data-i18n="userCreation.userCreationmsg"></span></p>
+					<br/>
+					<p><a href='#' class='homeNav'>
+						<button type="button" class="btn btn-success" id="authBtnBack"><span data-i18n="userCreation.backBtn">Retour vers la page d'authentification</span></button>	
+					</a></p>
+				</div>
+				<div id="CreationErrorInfos" class="masqued">
+					<br/>
+					<p><span data-i18n="userCreation.inscripErrormsg"></span></p>
+					<br/>
+					<p><a href='#' class='homeNav'>
+						<button type="button" class="btn btnBack" id="authBtnBack"><span data-i18n="userCreation.backBtn">Retour vers la page d'authentification</span></button>	
+					</a></p>
+				</div>
+				<div id="CreationError" class="masqued">
+					<br/>
+					<p><span data-i18n="userCreation.inscripErrorUnknown"></span></p>
+					<br/>
+					<p><a href='#' class='homeNav'>
+						<button type="button" class="btn btn-success" id="authBtnBack"><span data-i18n="userCreation.backBtn">Retour vers la page d'authentification</span></button>	
+					</a></p>
+				</div>
+				<div class="masqued">
+					<form id="formMailchimp" method="post">
+   
+						<input type="email" name="EMAIL"   id="mce-EMAIL">
+						<input type="text"  name="FNAME"   id="mce-FNAME">
+						<input type="text"  name="LNAME"   id="mce-LNAME">
+						<input type="text"  name="COMPANY" id="mce-COMPANY">
+						<input type="int"	name="role"    id="mce-Role">
+						<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+
+					</form>
+				</div>
+
+	</div>
+
+</div>
