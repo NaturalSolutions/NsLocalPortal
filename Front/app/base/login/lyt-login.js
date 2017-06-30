@@ -1,9 +1,5 @@
 /**
 
-	TODO:
-	- error msg
-	- autocomplete vincent plugin (bb collection)
-
 **/
 define(['marionette', 'backbone', 'sha1', 'config', 'jqueryui', 'sweetAlert','i18n'],
 function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
@@ -14,8 +10,8 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
     className: 'full-height',
 
     events: {
-      'submit': 'login',
-      'change #UNportal': 'checkUsername',
+      'click #login-btn': 'login',
+      'click #checklogin-btn' : 'checkLogin',
       'click  #UNportal' : 'clearField',
       'focus input': 'clear',
       'blur input': 'unBlur',
@@ -30,12 +26,6 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
       passwd : '#password'
     },
 	  
-    // validateEmail: function(email) {
-	
-    //   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    //   return re.test(email);
-	
-    // },
 
     pwd: function(pwd) {
 
@@ -81,8 +71,6 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
       var imgLogoPrtal = this.model.get('imgLogoPortal');
       var logo = 'url(data:image/png;base64,' + imgBackPortal + ')';
       $(this.$el[0]).css('background', logo + ' center center no-repeat');
-      //var bg = 'url(data:image/png;base64,' + imgLogoPrtal + ')';
-      //this.ui.logo.css('background', bg + 'center center no-repeat');
       this.ui.logo.css({
         'background-size': 'contain',
       });
@@ -95,28 +83,10 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
     },
 
     onShow: function() {
+      $('#UNportal').focus();
       var locale = config.language;
       this.style();
       var ctx = this;
-      this.collection.url = config.coreUrl + 'user';
-      this.collection.fetch({
-        success: function(data) {
-          ctx.users = [];
-          data.each(function(m) {
-            ctx.users.push(m.get('fullname'));
-          });
-/*
-          $('#UNportal').autocomplete({
-            source: function(request, response) {
-              var exp = '^' + $.ui.autocomplete.escapeRegex(request.term);
-              var matcher = new RegExp(exp, 'i');
-              response($.grep(ctx.users, function(item) {
-                return matcher.test(item);
-              }));
-            },
-          });*/
-        },
-      });
       this.$el.i18n();
       if(locale == 'fr'){
           $(this.ui.email).attr("placeholder", "adresse email");
@@ -136,72 +106,57 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
 		      $('.sweet-alert.showSweetAlert.visible').css('margin-left', '0px;');
           window.alertMobile = true;
       }
-       
-    },
-
-    checkUsername: function() {
-      var locale = config.language;
-      var user = $('#UNportal').val();
-      //var user = this.collection.findWhere({fullname: $('#UNportal').val()});
-      var userModel = this.collection.find(function(model) { 
-
-        if (model.get('fullname').toLowerCase() === user.toLowerCase()) {
-          return model ;
-
-        } else {
-          return false ;
-        }
-
-      });
-
-      if (!userModel) {
-        var invalidUser = 'Invalid email adress';
-        if(locale == 'fr'){
-              invalidUser = 'Adresse email invalide' ;
-          }
-        //this.fail('#login-group', invalidUser);
-        $(this.ui.email).val(invalidUser);
-        $(this.ui.email).css('color', 'red');
+      // show or hidden autoregistration
+      var autregistration = config.autoregistration ;
+      var resetpassword = config.resetpassword;
+      if(!autregistration) {
+        $('.loginInsc').addClass('hidden');
       }
+      if(!resetpassword){
+        $('#resetpassword').addClass('hidden');
+      }
+
+      // detect "enter" touch click 
+
+      $("#UNportal").on('keyup', function (e) {
+          if (e.keyCode == 13) {
+              ctx.checkLogin();
+          }
+      });
+      $("#password").on('keyup', function (e) {
+          if (e.keyCode == 13) {
+              ctx.login();
+          }
+      });
     },
 
-    login: function(elt) {
+    login: function() {
       var locale = config.language;
       var _this = this;
-      elt.preventDefault();
-      elt.stopPropagation();
+      /*elt.preventDefault();
+      elt.stopPropagation();*/
       //var user = this.collection.findWhere({fullname: $('#UNportal').val()});
-      var user = $('#UNportal').val();
-      //var userModel = this.collection.findWhere({fullname: user});
-      var userModel = this.collection.find(function(model) { 
-
-        if (model.get('fullname').toLowerCase() === user.toLowerCase()) {
-          return model ;
-
-        } else {
-          return false ;
-        }
-
-      });
-
+     // var login = $('#UNportal').val();
       var url = config.coreUrl + 'security/login';
       var self = this;
 
-      if (userModel) {
         $.ajax({
           context: this,
           type: 'POST',
           url: url,
           data: {
-            userId: userModel.get('PK_id'),
+            userId: this.userId,
             password: this.pwd($('#password').val()),
           },
-        }).done(function() {
+        }).done(function(data) {
+          var userRoleId = parseInt(data);
           $('.login-form').addClass('rotate3d');
           window.app.user.set('name', $('#UNportal').val());
+          window.app.user.set('role', userRoleId);
 
           setTimeout(function() {
-            Backbone.history.navigate('', {trigger: true});
+            // TODO default page after login
+            Backbone.history.navigate(config.defaultUrlRedirection, {trigger: true});
           }, 500);
 
         }).fail(function() {
@@ -213,7 +168,7 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
           this.shake();
 		      $(this.ui.passwd).val('');
         });
-      } else {
+      /*} else {
         var invalidUser = 'Invalid email adress';
         if(locale == 'fr'){
               invalidUser = 'Adresse email invalide' ;
@@ -222,7 +177,7 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
         $(this.ui.email).val(invalidUser);
         $(this.ui.email).css('color', 'red');
         this.shake();
-      }
+      }*/
     },
 
     fail: function(elt, text) {
@@ -245,7 +200,49 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
     clearField : function(){
         $(this.ui.email).val('');
         $(this.ui.email).css('color', 'white');
-    }
+    },
+    checkLogin : function(){
+      var locale = config.language;
+      var login = $('#UNportal').val();
+      var url = config.coreUrl + 'checkUser';
+      var self = this;
+      if(login) {
+        $.ajax({
+          context: this,
+          type: 'POST',
+          url: url,
+          data: {
+            login: login
+          },
+        }).done(function(data) {
+              //$('.login-form').addClass('rotate3d');
+              this.userId = parseInt(data);
+              setTimeout(function() {
+                // TODO default page after login
+                $('#password').removeClass('hidden');
+                $('#login-btn').removeClass('hidden');
+                $('#UNportal').addClass('hidden');
+                $('#checklogin-btn').addClass('hidden');
+                $('#password').focus();
 
+                //Backbone.history.navigate('#users', {trigger: true});
+              }, 500);
+
+        }).fail(function() {
+          var invalidUser = 'Invalid email adress';
+          if(locale == 'fr'){
+              invalidUser = 'Adresse email invalide' ;
+          }
+          this.fail('#login-group', invalidUser);
+          $(this.ui.email).val(invalidUser);
+          $(this.ui.email).css('color', 'red');
+          this.shake();
+          setTimeout(function() {
+            $(self.ui.email).val('');
+          }, 2000);
+
+        });
+      }
+    }
   });
 });

@@ -5,8 +5,8 @@
 
 **/
 define(['jquery', 'marionette', 'backbone', 'config', './base/login/lyt-login', 
-  './base/header/lyt-header','./base/inscription/lyt-insc','./base/activation/lyt-activate','./base/grid/grid'],
-  function($, Marionette, Backbone, config, LytLogin, LytHeader, LytInscription,LytActivation,grid) {
+  './base/header/lyt-header','./base/inscription/lyt-insc','./base/activation/lyt-activate','./base/users/users','./base/usercreation/lyt-createUser'],
+  function($, Marionette, Backbone, config, LytLogin, LytHeader, LytInscription,LytActivation,users,userCreation) {
 
 'use strict';
 return Marionette.AppRouter.extend({
@@ -15,7 +15,10 @@ return Marionette.AppRouter.extend({
     'activation/:id': 'activation',
     'resetpassword' :'resetpassword',
     'newpassword/:id' : 'newpassword',
-    'grid':'grid',
+    'users':'users',
+    'users/new' : 'newuser',
+    'users/:id' : 'edituser',
+    'userCreation':'userCreation',
     '*route(/:page)': 'home'
 
 
@@ -45,7 +48,7 @@ return Marionette.AppRouter.extend({
         var reset = currentRoute.search('resetpassword');
         var newpass = currentRoute.search('newpassword');
 
-        if (currentRoute == 'inscription') {
+        if ((currentRoute == 'inscription') && (config.autoregistration))  {
           window.app.rootView.rgMain.show(new LytInscription());
           Backbone.history.navigate('inscription', {trigger: true});
 

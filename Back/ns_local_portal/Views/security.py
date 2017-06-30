@@ -1,10 +1,10 @@
 from pyramid.httpexceptions import HTTPUnauthorized
 from pyramid.security import remember, forget, NO_PERMISSION_REQUIRED
 from pyramid.view import view_config
-from ..Models import DBSession, User
+from ..Models import DBSession, User,Authorisation
 from pyramid.interfaces import IAuthenticationPolicy
 from pyramid.response import Response
-from sqlalchemy import func
+from sqlalchemy import func, select
 
 import transaction
 
@@ -39,6 +39,7 @@ route_prefix = 'security/'
         # data = 0
     # return data
 
+
 @view_config(
     route_name=route_prefix+'login',
     permission=NO_PERMISSION_REQUIRED,
@@ -48,7 +49,6 @@ def login(request):
     #user_id =  user_id.upper()
     pwd = request.POST.get('password', '')
     user = DBSession.query(User).filter(User.id== user_id).one()
-    
 
     if user is not None and user.check_password(pwd):
         claims = {
@@ -56,10 +56,19 @@ def login(request):
             "username": user.Login,
             "userlanguage": user.Language
         }
+        
+        # get user role id
+        qr = select([
+        Authorisation.Role.label('role')
+        ]).where(Authorisation.FK_User == user_id)
+        usr = dict(DBSession.execute(qr).fetchone())
+        userRole = usr['role']
+
+
         jwt = make_jwt(request, claims)
         print(jwt)
         print(request)
-        response = Response(body='login success', content_type='text/plain')
+        response = Response(body=str(userRole), content_type='text/plain')
         remember(response, jwt)
         print(response)
         transaction.commit()
