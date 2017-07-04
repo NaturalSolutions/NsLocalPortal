@@ -1,4 +1,5 @@
 from pyramid.security import NO_PERMISSION_REQUIRED
+from pyramid.httpexceptions import HTTPUnauthorized
 from pyramid.view import view_config
 from sqlalchemy import select,func
 from sqlalchemy import update, insert
@@ -30,6 +31,15 @@ import json
 def usersManagement(request):
     """Return the list of all the users with their relevant data.
     """
+    # Check permission
+
+    query = select([
+    Authorisation.Role.label('role')
+    ]).where(Authorisation.FK_User == request.authenticated_userid['iss'])
+    user = dict(DBSession.execute(query).fetchone())
+    if(user['role']!=1):
+        return HTTPUnauthorized()
+
     query = select([
         User.id.label('PK_id'),
         User.Login.label('Login'),
@@ -41,34 +51,47 @@ def usersManagement(request):
 
     return [dict(row) for row in DBSession.execute(query).fetchall()]
 
+
 @view_config(
-
-    route_name='core/userInsert',
+    route_name='core/getuser',
     permission=NO_PERMISSION_REQUIRED,
-    #renderer='json'
+    renderer='json'
 )
-def userInsert(request):
+def getuser(request):
+    data = request.params.mixed()
+    id = data['id']
 
-    queryIdUser = session.query(func.max(User.id.label('idUserMax')))
-    queryIdUser += 1
+    query = select([
+        User.id.label('PK_id'),
+        User.Login.label('fullname'),
+        User.Firstname.label('firstname'),
+        User.Lastname.label('lastname'),
+        Authorisation.Role.label('role')
+    ]).where( 
+        and_(Authorisation.FK_User == User.id, User.id == id))
 
-    queryIdAuth = session.query(func.max(Authorisation.id.label('idAuthMax')))
-    queryIdAuth += 1
+    return dict(DBSession.execute(query).fetchone())
 
-    User.insert().values(
-        id=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
-        Lastname=data['name'],
-        Firstname=data['firstName'],
-        CreationDate=func.now(),
-        login=data['mail'],
-        Password=data['password'],
-        Langage=data['language'],
-        ModificationDate=func.now())
 
-    Authorisation.insert().values(id=queryIdAuth, #Ici envoyer le résultat de la requête qui renvoie l'Authorisation_ID Max+1
-        FK_User=queryIdUser, #Ici envoyer le résultat de la requête qui renvoie l'User_ID Max+1
-        Instance=1,
-        Role=data['role']) #L'utilisateur créé est un Admin, on met son rôle à 1
+
+@view_config(route_name='core/userDelete', permission=NO_PERMISSION_REQUIRED, renderer='json', request_method='POST')
+def delete(request):
+    
+    
+    # Check authorisation
+    query = select([
+    Authorisation.Role.label('role')
+    ]).where(Authorisation.FK_User == request.authenticated_userid['iss'])
+    user = dict(DBSession.execute(query).fetchone())
+    if(user['role']!=1):
+        return HTTPUnauthorized()
+
+    data = request.params.mixed()
+    id = data['id']
+    user = DBSession.query(User).filter_by(id=id).first()
+    DBSession.delete(user)
+    return ('ok')
+
 
 @view_config(
     route_name='core/user',
@@ -99,18 +122,99 @@ def current_user(request):
         User.id.label('PK_id'),
         User.Login.label('fullname'),
         User.Firstname.label('firstname'),
-        User.Lastname.label('lastname')
-    ]).where(User.id == request.authenticated_userid['iss'])
+        User.Lastname.label('lastname'),
+        Authorisation.Role.label('role')
+
+    ]).where(
+    and_(Authorisation.FK_User == User.id,  User.id == request.authenticated_userid['iss']))
     return dict(DBSession.execute(query).fetchone())
 
+@view_config(route_name='core/userUpdate',renderer='json', request_method='POST', permission= NO_PERMISSION_REQUIRED)
+def updateUser(request):
+    
+    value = '0'
+    # Check authorisation
+    query = select([
+    Authorisation.Role.label('role')
+    ]).where(Authorisation.FK_User == request.authenticated_userid['iss'])
+    user = dict(DBSession.execute(query).fetchone())
+    if(user['role']!=1):
+        return HTTPUnauthorized()
+
+    try:
+        userId = request.POST.get('id')
+        userName = request.POST.get('name')
+        userFirstName = request.POST.get('firstName')
+        newPassword = request.POST.get('password')
+        userMail = request.POST.get('mail')
+        userRole = request.POST.get('role')
+
+        curUser = DBSession.query(User).get(userId)
+
+        # update user data
+        curUser.Lastname = userName
+        curUser.Firstname = userFirstName
+        curUser.Login = userMail
+        curUser.Password = newPassword
+        curUser.ModificationDate=func.now()
+        transaction.commit() 
+
+        # update user role
+        curUserRole = DBSession.query(Authorisation).filter_by(FK_User=userId).first()
+        curUserRole.Role = userRole
+        transaction.commit() 
+        value ="ok" 
+
+
+    except AttributeError:
+
+        value = "non exists"
+    except:
+
+        value =  "Unknow error" 
+
+    return value
+
+@view_config(route_name='core/checkUser',renderer='json', request_method='POST', permission= NO_PERMISSION_REQUIRED)
+def checkUser(request):
+    exists = True
+    login = request.POST.get('login')
+    query = select([User.id]).where(User.Login==login)
+    user = DBSession.execute(query).fetchone()
+    if (user is None): 
+        return HTTPUnauthorized()
+    userid = user[0]
+    return userid
+
+@view_config(route_name='core/checkPassword',renderer='json', request_method='POST', permission= NO_PERMISSION_REQUIRED)
+def checkPassword(request):
+    exists = True
+    login = request.POST.get('login')
+    password = request.POST.get('password')
+    query = select([User.id]).where((User.Login==login) & (User.Password==password))
+    user = DBSession.execute(query).fetchone()
+    if (user is None): 
+        return HTTPUnauthorized()
+    return exists
 
 @view_config(route_name='core/account',renderer='json', request_method='GET', permission= NO_PERMISSION_REQUIRED)
 def createAccount(request):
     data = request.params.mixed()
-    print('******************data*****************')
+
+    # Check authorisation
+    query = select([
+    Authorisation.Role.label('role')
+    ]).where(Authorisation.FK_User == request.authenticated_userid['iss'])
+    user = dict(DBSession.execute(query).fetchone())
+    if(user['role']!=1):
+        return HTTPUnauthorized()
+    
     #print(data)
     # check if user exists
     email = data['mail']
+    role = data['role']
+    if (role is None):
+        role = 3
     query = select([User.id]).where(User.Login==email)
     user = DBSession.execute(query).fetchone()
 
@@ -124,28 +228,30 @@ def createAccount(request):
             #Language = 'fr',
             Language = data['language'],
             ModificationDate = func.now(),
-            HasAccess = 0,
+            HasAccess = True,
             Photos = None,
-            IsObserver = 0,
+            IsObserver = False,
             Organisation = data['organisation'],
             Updatenews = data['updatenews'],
-            Teamnews = data['teamnews']
+            Teamnews = data['teamnews'],
             )
         DBSession.add(newUser)
         DBSession.flush()
 
         to_add = []
         #instance_IDs = [45,46,47]
-        instance_IDs = [45,50,53,55]
+        #instance_IDs = [45,50,53,55]
+        instance_IDs = [1]
 
         for id_inst in instance_IDs:
-            curAuthorisation = Authorisation(FK_User = newUser.id,Instance = id_inst, Role = 3) 
+            curAuthorisation = Authorisation(FK_User = newUser.id,Instance = id_inst, Role = role) 
             to_add.append(curAuthorisation)
 
         #to_add.append(UserDepartement(FK_User = newUser.id,Fk_Departement = 47))
 
         DBSession.add_all(to_add)
-        sendMail(newUser.Login,newUser.id)
+        
+        #sendMail(newUser.Login,newUser.id)
 
         return 'success'
 
@@ -159,10 +265,7 @@ def sendMail (email_adress,id_) :
         smtpServer.starttls()
         smtpServer.login(dbConfig['mail'],dbConfig['pwd'])
         recipients = email_adress
-
         emailadr = 'http://demo.ecoreleve.com/login/#activation/'+str(id_)
-        print('***********************')
-        print(emailadr)
         page =''
         content =''
 
@@ -183,7 +286,6 @@ def sendMail (email_adress,id_) :
         # http://www.natural-solutions.eu/contacts/
 
         # Regards,
-
 
         # ecoReleve Team'''.format(id_)
         text =MIMEText(page,'html')
@@ -287,7 +389,6 @@ def updatePassword(request):
                 curUser.Password = newPassword
                 transaction.commit() 
                 value ="ok" 
-                print('************ change pass ok************')
         else:
                 value="timout"             
     except AttributeError:
@@ -295,5 +396,5 @@ def updatePassword(request):
     except:
         value =  "Unknow error" 
 
-    return value        
+    return value
 
