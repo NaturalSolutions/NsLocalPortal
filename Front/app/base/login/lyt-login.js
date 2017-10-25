@@ -156,7 +156,8 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
 
           setTimeout(function() {
             // TODO default page after login
-            Backbone.history.navigate(config.defaultUrlRedirection, {trigger: true});
+            document.location.href = config.defaultUrlRedirection;
+          //   Backbone.history.navigate(config.defaultUrlRedirection, {trigger: true});
           }, 500);
 
         }).fail(function() {
