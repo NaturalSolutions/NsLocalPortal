@@ -43,7 +43,7 @@ route_prefix = 'security/'
 @view_config(
     route_name=route_prefix + 'login',
     permission=NO_PERMISSION_REQUIRED,
-    request_method='POST')
+    request_method='OPTIONS')
 def login(request):
     response = Response()
     response.headers['Access-Control-Expose-Headers'] = (
