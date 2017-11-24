@@ -44,7 +44,7 @@ route_prefix = 'security/'
     route_name=route_prefix + 'login',
     permission=NO_PERMISSION_REQUIRED,
     request_method='OPTIONS')
-def login(request):
+def login_options(request):
     response = Response()
     response.headers['Access-Control-Expose-Headers'] = (
         'Content-Type, Date, Content-Length, Authorization, X-Request-ID, X-Requested-With')
