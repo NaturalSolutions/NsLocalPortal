@@ -4,10 +4,10 @@ Created on Mon Aug 25 13:00:16 2014
 @author: Natural Solutions (Thomas)
 """
 
-from ..Models import DBSession , User
-import transaction 
-from pyramid.httpexceptions import HTTPUnauthorized,HTTPForbidden
-from pyramid_jwtauth import * 
+from ..Models import DBSession, User
+import transaction
+from pyramid.httpexceptions import HTTPUnauthorized, HTTPForbidden
+from pyramid_jwtauth import *
 from pyramid.security import (
     ALL_PERMISSIONS,
     DENY_ALL,
@@ -16,6 +16,8 @@ from pyramid.security import (
 )
 
 # Root class security #
+
+
 class SecurityRoot(object):
     __acl__ = [
         (Allow, Authenticated, 'read'),
@@ -23,42 +25,45 @@ class SecurityRoot(object):
         (Allow, 'admin', ALL_PERMISSIONS),
         DENY_ALL
     ]
-    
+
     def __init__(self, request):
         self.request = request
 
 # Useful fucntions #
+
+
 def role_loader(user_id, request):
-    result = DBSession.query(User.Role).filter(User.id==user_id).one()
+    result = DBSession.query(User.Role).filter(User.id == user_id).one()
     transaction.commit()
     return result
 
+
 class myJWTAuthenticationPolicy(JWTAuthenticationPolicy):
 
-
     def get_userID(self, request):
-        try :
+        try:
             token = request.cookies.get("ecoReleve-Core")
             claims = self.decode_jwt(request, token)
             userid = claims['iss']
             return userid
-        except: 
+        except:
             return
+
     def get_userInfo(self, request):
-        try :
+        try:
             token = request.cookies.get("ecoReleve-Core")
             claims = self.decode_jwt(request, token, verify=True)
             return claims, True
-        except: 
+        except:
             try:
                 token = request.cookies.get("ecoReleve-Core")
                 claims = self.decode_jwt(request, token, verify=False)
-                return claims,False
+                return claims, False
             except:
                 return None, False
 
     def user_info(self, request):
-        claim,verify_okay = self.get_userInfo(request)
+        claim, verify_okay = self.get_userInfo(request)
         if claim is None:
             return None
         return claim
@@ -76,7 +81,7 @@ class myJWTAuthenticationPolicy(JWTAuthenticationPolicy):
         return userid
 
     def remember(self, response, principal, **kw):
-        response.set_cookie('ecoReleve-Core', principal, max_age = 100000)
+        response.set_cookie('ecoReleve-Core', principal, max_age=100000)
 
     def forget(self, request):
         request.response.delete_cookie('ecoReleve-Core')
@@ -89,8 +94,19 @@ class myJWTAuthenticationPolicy(JWTAuthenticationPolicy):
             return True
 
     def challenge(self, request, content="Unauthorized"):
+        if request.method == 'OPTIONS':
+            response = Response()
+            response.headers['Access-Control-Expose-Headers'] = (
+                'Content-Type, Date, Content-Length, Authorization, X-Request-ID, X-Requested-With')
+            response.headers['Access-Control-Allow-Origin'] = (
+                request.headers['Origin'])
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+            response.headers['Access-Control-Allow-Headers'] = 'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+            response.headers['Access-Control-Allow-Methods'] = (
+                'POST,GET,DELETE,PUT,OPTIONS')
+            response.headers['Content-Type'] = ('application/json')
+            return response
         if self.authenticated_userid(request):
             return HTTPUnauthorized(content, headers=self.forget(request))
 
         return HTTPForbidden(content, headers=self.forget(request))
-

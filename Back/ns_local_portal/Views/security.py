@@ -45,6 +45,24 @@ route_prefix = 'security/'
     permission=NO_PERMISSION_REQUIRED,
     request_method='POST')
 def login(request):
+    response = Response()
+    response.headers['Access-Control-Expose-Headers'] = (
+        'Content-Type, Date, Content-Length, Authorization, X-Request-ID, X-Requested-With')
+    response.headers['Access-Control-Allow-Origin'] = (
+        request.headers['Origin'])
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = 'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+    response.headers['Access-Control-Allow-Methods'] = (
+        'POST,GET,DELETE,PUT,OPTIONS')
+    response.headers['Content-Type'] = ('application/json')
+    return response
+
+
+@view_config(
+    route_name=route_prefix + 'login',
+    permission=NO_PERMISSION_REQUIRED,
+    request_method='POST')
+def login(request):
     user_id = request.POST.get('userId', '')
     #user_id =  user_id.upper()
     pwd = request.POST.get('password', '')
