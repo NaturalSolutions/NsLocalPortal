@@ -5,7 +5,7 @@ from ..Models import DBSession, User, Authorisation, Base
 from pyramid.interfaces import IAuthenticationPolicy
 from pyramid.response import Response
 from sqlalchemy import func, select, join
-
+import json
 import transaction
 
 route_prefix = 'security/'
@@ -95,8 +95,8 @@ def login(request):
         userRole = usr['role']
 
         jwt = make_jwt(request, claims)
-
-        response = Response(body=str(userRole), content_type='text/plain')
+        response = Response(body=json.dumps(
+            {'token': jwt.decode()}), content_type='text/plain')
         remember(response, jwt)
         transaction.commit()
         return response
