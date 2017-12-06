@@ -83,7 +83,8 @@ def login(request):
     if user is not None and user.check_password(pwd):
         claims = {
             "iss": user_id,
-            "username": user.Login,
+            "login": user.Login,
+            "fullname": user.fullname,
             "userlanguage": user.Language,
             "app_roles": roles}
 
