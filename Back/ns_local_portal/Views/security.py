@@ -7,7 +7,7 @@ from pyramid.response import Response
 from sqlalchemy import func, select, join
 import json
 import transaction
-
+from pyramid import threadlocal
 route_prefix = 'security/'
 
 # @view_config(
@@ -113,10 +113,27 @@ def make_jwt(request, claims):
 
 @view_config(
     route_name=route_prefix + 'logout',
-    permission=NO_PERMISSION_REQUIRED,)
+    permission=NO_PERMISSION_REQUIRED)
 def logout(request):
     forget(request)
     return request.response
+
+
+@view_config(route_name=route_prefix + 'authorize',
+             request_method='POST',
+             permission=NO_PERMISSION_REQUIRED)
+def authorize(request):
+    token = request.json_body.get('token', None)
+
+    policy = request.registry.queryUtility(IAuthenticationPolicy)
+    claims = policy.decode_jwt(request, token, verify=True)
+    # print(threadlocal.get_current_registry().authentication_policy)
+
+    jwt = make_jwt(request, claims)
+    response = Response(body=json.dumps(
+        {'token': jwt.decode()}), content_type='text/plain')
+    remember(response, jwt)
+    return response
 
 
 @view_config(route_name=route_prefix + 'has_access')
