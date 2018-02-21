@@ -119,12 +119,31 @@ def logout(request):
     return request.response
 
 
+
+@view_config(
+    route_name=route_prefix + 'authorize',
+    permission=NO_PERMISSION_REQUIRED,
+    request_method='OPTIONS')
+def login_options(request):
+    response = Response()
+    response.headers['Access-Control-Expose-Headers'] = (
+        'Content-Type, Date, Content-Length, Authorization, X-Request-ID, X-Requested-With')
+    response.headers['Access-Control-Allow-Origin'] = (
+        request.headers['Origin'])
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = 'Access-Control-Allow-Origin, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+    response.headers['Access-Control-Allow-Methods'] = (
+        'POST,GET,DELETE,PUT,OPTIONS')
+    response.headers['Content-Type'] = ('application/json')
+    return response
+
 @view_config(route_name=route_prefix + 'authorize',
              request_method='POST',
              permission=NO_PERMISSION_REQUIRED)
 def authorize(request):
-    token = request.json_body.get('token', None)
-
+    token = request.POST.get('token', None)
+    print(request)
+    print(request.params)
     policy = request.registry.queryUtility(IAuthenticationPolicy)
     claims = policy.decode_jwt(request, token, verify=True)
     # print(threadlocal.get_current_registry().authentication_policy)
