@@ -29,7 +29,7 @@ require.config({
     sha1: '../bower_components/jsSHA/src/sha1',
     moment: '../bower_components/moment/min/moment.min',
     momentLocale: '../bower_components/moment/locale',
-    i18n: '../bower_components/i18next/i18next',
+    i18n: '../bower_components/i18n/i18next',
     utf8: '../bower_components/utf8/utf8',
     sweetAlert: '../bower_components/sweetalert/lib/sweet-alert.min',
     ajaxChimp : '../bower_components/ajaxchimp/jquery.ajaxchimp',
