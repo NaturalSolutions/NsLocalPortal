@@ -1,7 +1,7 @@
 
 define([
   'marionette', 'backbone', 'moment',
-  './base/rootView/lyt-rootview',
+  './base/rootview/lyt-rootview',
   'router',
   'controller',
   'config',
@@ -21,7 +21,14 @@ Controller, config) {
   app = new Marionette.Application();
 
   $.ajaxSetup({ cache: false });
-
+  $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+    options.crossDomain ={
+      crossDomain: true
+    };
+    options.xhrFields = {
+      withCredentials: true
+    };
+  }); 
   app.on('start', function() {
     var _this = this;
     var Patern = Backbone.Model.extend({

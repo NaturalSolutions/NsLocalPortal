@@ -32,8 +32,15 @@ require.config({
     i18n: '../bower_components/i18next/i18next',
     utf8: '../bower_components/utf8/utf8',
     sweetAlert: '../bower_components/sweetalert/lib/sweet-alert.min',
-    ajaxChimp : '../bower_components/ajaxchimp/jquery.ajaxchimp'
+    ajaxChimp : '../bower_components/ajaxchimp/jquery.ajaxchimp',
+    agGrid : '../bower_components/ag-grid/dist/ag-grid',
+    'backbone-forms': 'vendors/backbone-forms',
 
+  },
+    map: {
+      '*': {
+        'backbone_forms' : 'backbone-forms'
+      }
   },
 
   shim: {
@@ -79,6 +86,9 @@ require.config({
     },
     ajaxChimp : {
       exports : 'ajaxChimp'
+    },
+    agGrid : {
+      exports : 'agGrid'
     }
   },
 });

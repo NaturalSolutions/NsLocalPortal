@@ -42,16 +42,26 @@ function(Marionette, config) {
       var name = this.model.get('firstname') + ' ' + this.model.get('lastname');
       this.ui.user.html(name);
       this.$el.i18n();
+      var pipefyForm = config.pipefyform ;
+      
+      if (!pipefyForm ){
+        // masquer icone support
+        $('#pipefy').addClass('hidden');
+      }
+
     },
     pipefyform : function(e){
-      // check id div is not integrated add it
-      var frmisinserted  = this.$el.find('.supportpanel').length;
-      if (!frmisinserted) {
-        this.insertForm();
-      } else {
-        this.controlformdisplay();
+
+      var insertPipefyForm = config.pipefyform ;
+      if (insertPipefyForm ) {
+                        // check id div is not integrated add it
+          var frmisinserted  = this.$el.find('.supportpanel').length;
+          if (!frmisinserted) {
+            this.insertForm();
+          } else {
+            this.controlformdisplay();
+          }
       }
-      
     },
     closeform : function(){
       $('div.supportpanel').animate({ "right": "-=560px" }, "slow" ).addClass('hidden');

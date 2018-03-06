@@ -6,9 +6,10 @@ from sqlalchemy import (
    Sequence,
    String,
    func,
-   Boolean,
-   VARBINARY
+   Boolean
  )
+
+from sqlalchemy.dialects.postgresql import BYTEA
 
 from sqlalchemy.ext.hybrid import hybrid_property
 from ..Models import Base, dbConfig
@@ -33,7 +34,7 @@ class Site(Base):
     IncubChief = Column( 'TSit_IncubChief', Integer)
     Project = Column( 'TSit_Project', String(250))
     LongName = Column( 'TSit_LongName', String(255))
-    ImageBackPortal = Column( 'TSit_ImageBackPortal', VARBINARY)
-    ImageLogoPortal = Column( 'Tsit_ImageLogoPortal', VARBINARY)
-    BackgroundHomePage = Column( 'TSit_BackgroundHomePage', VARBINARY)
+    ImageBackPortal = Column( 'TSit_ImageBackPortal', BYTEA)
+    ImageLogoPortal = Column( 'Tsit_ImageLogoPortal', BYTEA)
+    BackgroundHomePage = Column( 'TSit_BackgroundHomePage', BYTEA)
     UILabel = Column( 'TSit_UILabel', String(255))
