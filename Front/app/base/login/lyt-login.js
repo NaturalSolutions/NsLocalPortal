@@ -119,12 +119,12 @@ function(Marionette, Backbone, JsSHA, config, $ui,Swal) {
       // detect "enter" touch click 
 
       $("#UNportal").on('keyup', function (e) {
-          if (e.keyCode == 13) {
+          if (e.which == 13 || e.keyCode == 13) {
               ctx.checkLogin();
           }
       });
       $("#password").on('keyup', function (e) {
-          if (e.keyCode == 13) {
+          if (e.which == 13 || e.keyCode == 13) {
               ctx.login();
           }
       });
