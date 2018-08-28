@@ -22,3 +22,7 @@ npm-debug.log
 web.config
 
 .grunt/grunt-contrib-jasmine
+Back/portal
+Back/pyramid.log
+Back/pyramid.pid
+Front/app/.config.js.swp
