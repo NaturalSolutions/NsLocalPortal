@@ -81,7 +81,7 @@ class myJWTAuthenticationPolicy(JWTAuthenticationPolicy):
         return userid
 
     def remember(self, response, principal, **kw):
-        response.set_cookie(COOKIE_NAME, principal, max_age=100000)
+        response.set_cookie(COOKIE_NAME, principal, max_age=8100000)
 
     def forget(self, request):
         request.response.delete_cookie(COOKIE_NAME)
